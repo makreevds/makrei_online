@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Регистрация{% endblock %}
+{% block content %}
+<h1>Регистрация</h1>
+<form method="post" class="centered-form">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div>
+        {{ form.username.label_tag }}<br>
+        {{ form.username }}
+        {{ form.username.errors }}
+    </div>
+    <div>
+        {{ form.email.label_tag }}<br>
+        {{ form.email }}
+        {{ form.email.errors }}
+    </div>
+    <div>
+        {{ form.password.label_tag }}<br>
+        {{ form.password }}
+        {{ form.password.errors }}
+    </div>
+    <div>
+        {{ form.password2.label_tag }}<br>
+        {{ form.password2 }}
+        {{ form.password2.errors }}
+    </div>
+    <button type="submit">Зарегистрироваться</button>
+</form>
+<div class="centered-form telegram-auth">
+    <p style="text-align: center; margin: 20px 0;">Или зарегистрируйтесь через Telegram:</p>
+    {% if telegram_bot_username %}
+    <div style="display: flex; justify-content: center;">
+        <script async src="https://telegram.org/js/telegram-widget.js?22" 
+                data-telegram-login="{{ telegram_bot_username }}" 
+                data-size="large" 
+                data-auth-url="{{ telegram_callback_url }}" 
+                data-request-access="write"></script>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 20px; background-color: #fff3cd; border: 1px solid #ffc107; border-radius: 5px; margin: 10px 0;">
+        <p style="color: #856404; margin: 0;">
+            ⚠️ Для работы регистрации через Telegram необходимо настроить бота в settings.py:<br>
+            <code>TELEGRAM_BOT_USERNAME = 'имя_вашего_бота'</code>
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Сайт{% endblock %}</title>
+    <link href="/static/style.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar center-buttons">
+        <a href="/" class="button{% if request.path == '/' %} active{% endif %}">Главная</a>
+        <a href="/blog/" class="button{% if request.path|slice:':6' == '/blog/' %} active{% endif %}">Блог</a>
+        {% if user.is_authenticated %}
+            <span class="username">{{ user.username }}</span>
+            <a href="/logout/" class="button">Выйти</a>
+        {% else %}
+            <a href="/login/" class="button{% if '/login/' in request.path %} active{% endif %}">Войти</a>
+        {% endif %}
+        <a href="/admin/" class="button{% if '/admin/' in request.path %} active{% endif %}">Админка</a>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

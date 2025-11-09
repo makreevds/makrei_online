@@ -1,0 +1,180 @@
+:root {
+    /* Основные цвета сайта */
+    --bg-color: #1d242a;
+    --post-bg: #313a3f;
+    --post-bg-2: #263137;
+    --text-color: #f9feff;
+    --post-shadow: #06090b;
+    --button-text: #3db29e;
+    --border-radius: 5px;
+    --border-block: 1px solid rgba(249, 254, 255, 0.1);
+}
+
+html {
+    /* Стабилизирует ширину из-за полосы прокрутки */
+    scrollbar-gutter: stable;
+    overflow-y: scroll;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 10px;
+}
+
+.center-buttons {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.navbar {
+    background: var(--post-bg-2);
+    box-shadow: 0 2px 12px 0 var(--post-shadow);
+    border-radius: 0;
+    padding: 15px 0 15px 0;
+    margin-bottom: 24px;
+}
+
+.button {
+    color: var(--button-text);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 5px 10px;
+    border-radius: var(--border-radius);
+    transition: background-color 0.2s;
+}
+.button:last-child {
+    margin-right: 0;
+}
+.button:hover {
+    background-color: rgba(61, 178, 158, 0.2);
+}
+.button.active {
+    color: var(--bg-color);
+    background-color: var(--button-text);
+}
+
+/* Имя пользователя в навбаре */
+.username {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 1em;
+    color: var(--button-text);
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+    padding: 10px;
+    border-radius: var(--border-radius);
+    border: var(--border-block);
+    background: var(--post-bg);
+    color: var(--text-color);
+    font-size: 1rem;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+form button[type="submit"] {
+
+    border: none;
+    padding: 10px 30px;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    cursor: pointer;
+
+    color: var(--button-text);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 5px 10px;
+    border-radius: var(--border-radius);
+    background: var(--bg-color);
+    transition: background-color 0.2s;
+}
+form button[type="submit"]:hover {
+    background-color: rgba(61, 178, 158, 0.2);
+}
+
+h1 {
+    color: var(--button-text);
+    text-align: center;
+}
+
+/* Центрированная форма */
+.centered-form {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.centered-form div {
+    margin-bottom: 15px;
+}
+
+.centered-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.centered-form input[type="text"],
+.centered-form input[type="email"],
+.centered-form input[type="password"] {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.centered-form button[type="submit"] {
+    margin-top: 10px;
+}
+
+/* Основной контент */
+main {
+    margin-top: 50px;
+}
+
+/* Блок регистрации под формой */
+.registration-link {
+    margin-top: 24px;
+    text-align: center;
+}
+
+.registration-link span {
+    margin-right: 10px;
+}
+
+/* Контейнер блога */
+.blog-container {
+    max-width: 700px;
+    margin: auto;
+    margin-top: 40px;
+}
+
+/* Карточка поста */
+.post-card {
+    background: var(--post-bg);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 6px var(--post-shadow);
+    margin-bottom: 30px;
+    padding: 24px;
+}
+
+.post-card h2 {
+    margin-top: 0;
+}
+
+.post-date {
+    opacity: 0.8;
+    margin-bottom: 20px;
+}
+
+/* Пустое сообщение */
+.empty-message {
+    text-align: center;
+    opacity: 0.6;
+}
