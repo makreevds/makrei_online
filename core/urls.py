@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from main.views import index, register, login_view, logout_view, telegram_auth
 from blog.views import post_list
 
@@ -28,3 +30,9 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
     path('telegram-auth/', telegram_auth, name='telegram_auth'),
 ]
+
+# Обработка статических файлов для разработки
+if settings.DEBUG:
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+    urlpatterns += staticfiles_urlpatterns()
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

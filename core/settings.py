@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-1-p5r2!b2#5dhpq9$lf4e^jx1gmf*macw#ob$n+!4!t60y_s&y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True  # Включено для разработки, отключить в продакшене!
 
 ALLOWED_HOSTS = ['makrei.online', 'www.makrei.online', 'localhost', '127.0.0.1']
 
@@ -117,13 +117,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-# Где будут собраны все статики
-STATIC_ROOT = '/var/www/makrei_online/static'
 STATIC_URL = '/static/'
+
+# Для разработки на Windows используем локальную папку
+# Для продакшена на Linux будет использоваться /var/www/makrei_online/static
+if DEBUG:
+    STATIC_ROOT = BASE_DIR / 'staticfiles'  # Для collectstatic в разработке
+else:
+    STATIC_ROOT = '/var/www/makrei_online/static'  # Для продакшена
+
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Если есть медиа-файлы
-MEDIA_ROOT = '/var/www/makrei_online/media'
+if DEBUG:
+    MEDIA_ROOT = BASE_DIR / 'media'  # Для разработки
+else:
+    MEDIA_ROOT = '/var/www/makrei_online/media'  # Для продакшена
 MEDIA_URL = '/media/'
 
 
