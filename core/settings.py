@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-1-p5r2!b2#5dhpq9$lf4e^jx1gmf*macw#ob$n+!4!t60y_s&y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['makrei.online', 'www.makrei.online', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -117,8 +117,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+# Где будут собраны все статики
+STATIC_ROOT = '/var/www/makrei_online/static'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+
+# Если есть медиа-файлы
+MEDIA_ROOT = '/var/www/makrei_online/media'
+MEDIA_URL = '/media/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -135,4 +142,6 @@ TELEGRAM_BOT_USERNAME = 'HypeProfit_bot'  # Имя вашего бота (нап
 # Для локальной разработки используйте ngrok или укажите ваш домен
 # Пример: 'localhost:8000' или 'yourdomain.com'
 # ВАЖНО: Домен должен быть зарегистрирован в BotFather через команду /setdomain
-TELEGRAM_BOT_DOMAIN = '127.0.0.1:8000'  # Замените на ваш домен
+TELEGRAM_BOT_DOMAIN = 'makrei.online'  # Замените на ваш домен
+
+
