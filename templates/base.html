@@ -8,7 +8,7 @@
 </head>
 <body>
     <nav class="navbar center-buttons">
-        <a href="/" class="button{% if request.path == '/' %} active{% endif %}">ГГлавная</a>
+        <a href="/" class="button{% if request.path == '/' %} active{% endif %}">Домой</a>
         <a href="/blog/" class="button{% if request.path|slice:':6' == '/blog/' %} active{% endif %}">Блог</a>
         {% if user.is_authenticated %}
             <span class="username">{{ user.username }}</span>
