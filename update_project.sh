@@ -1,40 +1,62 @@
 #!/bin/bash
 set -e  # Остановить выполнение при любой ошибке
 
+# ===============================
+# Настройки проекта
+# ===============================
 PROJECT_DIR="/root/Projects/makrei_online"   # Папка проекта на сервере
-VENV_DIR="$PROJECT_DIR/venv"                 # Путь к виртуальному окружению
+VENV_DIR="$PROJECT_DIR/venv"                 # Виртуальное окружение
 SERVICE_NAME="makrei_online.service"         # Название службы Gunicorn
 
 echo "--- НАЧАЛО ОБНОВЛЕНИЯ ---"
 
-cd "$PROJECT_DIR"  # Переходим в папку проекта
+# Переходим в директорию проекта
+cd "$PROJECT_DIR"
 
+# ===============================
+# Получение последних изменений
+# ===============================
 echo "1. Получаем последние изменения из репозитория..."
-git fetch origin              # Получаем обновления
-git pull --rebase origin main # Подтягиваем и накладываем изменения
+git fetch origin
+git reset --hard origin/main   # Полностью синхронизируем локальный репо с удалённым
+git clean -fd                  # Удаляем все новые неотслеживаемые файлы/папки
 
+# ===============================
+# Виртуальное окружение
+# ===============================
 echo "2. Проверяем виртуальное окружение..."
 if [ ! -d "$VENV_DIR" ]; then
-    # Создаём окружение, если не существует
+    echo "Создаём виртуальное окружение..."
     python3 -m venv "$VENV_DIR"
 fi
 
 echo "3. Активируем виртуальное окружение..."
-source "$VENV_DIR/bin/activate"  # Включаем venv
+source "$VENV_DIR/bin/activate"
 
+# ===============================
+# Установка зависимостей
+# ===============================
 echo "4. Устанавливаем зависимости..."
-pip install --upgrade pip         # Обновляем pip
-pip install -r requirements.txt   # Ставим необходимые пакеты
+pip install --upgrade pip
+pip install -r requirements.txt
 
+# ===============================
+# Миграции базы данных
+# ===============================
 echo "5. Применяем миграции базы данных..."
-python manage.py migrate --noinput  # Обновляем структуру БД
+python manage.py migrate --noinput
 
+# ===============================
+# Сборка статики
+# ===============================
 echo "6. Собираем статику..."
-python manage.py collectstatic --noinput  # Копируем статические файлы в STATIC_ROOT
+python manage.py collectstatic --noinput
 
+# ===============================
+# Перезапуск Gunicorn
+# ===============================
 echo "7. Перезапускаем Gunicorn..."
-sudo systemctl restart $SERVICE_NAME      # Перезапускаем службу
-
-echo "Статус службы: $(sudo systemctl is-active $SERVICE_NAME)"  # Проверяем статус
+sudo systemctl restart $SERVICE_NAME
+echo "Статус службы: $(sudo systemctl is-active $SERVICE_NAME)"
 
 echo "--- ОБНОВЛЕНИЕ ЗАВЕРШЕНО ---"
