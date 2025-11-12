@@ -382,7 +382,33 @@ main {
 .post-content {
     margin-bottom: 15px;
     white-space: pre-wrap;
-    line-height: 1.6;
+    line-height: 1.5em;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+.post-content.collapsed {
+    max-height: 4.5em; /* 3 строки по 1.5em line-height */
+}
+
+/* Кнопка переключения */
+.toggle-btn {
+    background: none;
+    border: none;
+    color: var(--button-text);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0;
+    display: none; /* Скрываем по умолчанию, показываем через JS если нужно */
+    margin: 0 0 15px 0;
+    text-align: right;
+    width: 100%;
+}
+
+.toggle-btn:hover {
+    text-decoration: underline;
+    opacity: 0.8;
 }
 
 /* Сообщения об ошибках */

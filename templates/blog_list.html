@@ -17,6 +17,7 @@
             {% endif %}
         </div>
         <div class="post-content">{{ post.content|linebreaks }}</div>
+        <button class="toggle-btn">Развернуть</button>
         <div class="post-actions">
             <a href="{% url 'post_edit' post.id %}" class="action-button action-button-secondary">Редактировать</a>
             <a href="{% url 'post_delete' post.id %}" class="action-button action-button-danger" onclick="return confirm('Вы уверены, что хотите удалить этот пост?');">Удалить</a>
