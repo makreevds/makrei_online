@@ -1,18 +1,30 @@
 {% extends "base.html" %}
-{% block title %}Блог{% endblock %}
+{% block title %}Мой блог{% endblock %}
 {% block content %}
-<h1>Блог</h1>
+<h1>Мой блог</h1>
+<div class="blog-actions" style="margin-bottom: 20px;">
+    <a href="{% url 'post_create' %}" class="button" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Создать новый пост</a>
+</div>
 <div class="blog-container">
 {% if posts %}
   {% for post in posts %}
-    <div class="post-card">
-        <h2>{{ post.title }}</h2>
-        <div class="post-date">{{ post.created_at|date:"d.m.Y H:i" }}</div>
-        <div>{{ post.content|linebreaks }}</div>
+    <div class="post-card" style="margin-bottom: 20px; padding: 20px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
+        <h2 style="margin-top: 0;">{{ post.title }}</h2>
+        <div class="post-date" style="color: #666; font-size: 0.9em; margin-bottom: 10px;">
+            {{ post.created_at|date:"d.m.Y H:i" }}
+            {% if post.updated_at != post.created_at %}
+                (обновлено: {{ post.updated_at|date:"d.m.Y H:i" }})
+            {% endif %}
+        </div>
+        <div style="margin-bottom: 15px; white-space: pre-wrap;">{{ post.content|linebreaks }}</div>
+        <div class="post-actions" style="margin-top: 15px;">
+            <a href="{% url 'post_edit' post.id %}" class="button" style="display: inline-block; padding: 5px 15px; background-color: #28a745; color: white; text-decoration: none; border-radius: 3px; margin-right: 10px;">Редактировать</a>
+            <a href="{% url 'post_delete' post.id %}" class="button" style="display: inline-block; padding: 5px 15px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 3px;" onclick="return confirm('Вы уверены, что хотите удалить этот пост?');">Удалить</a>
+        </div>
     </div>
   {% endfor %}
 {% else %}
-  <p class="empty-message">Пока нет ни одного поста.</p>
+  <p class="empty-message" style="text-align: center; padding: 40px; color: #666;">Пока нет ни одного поста. Создайте свой первый пост!</p>
 {% endif %}
 </div>
 {% endblock %}

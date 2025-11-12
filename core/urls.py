@@ -18,17 +18,19 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from main.views import index, register, login_view, logout_view, telegram_auth
-from blog.views import post_list
+from main.views import index, register, login_view, logout_view
+from blog.views import post_list, post_create, post_edit, post_delete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
     path('register/', register, name='register'),
     path('blog/', post_list, name='blog'),
+    path('blog/create/', post_create, name='post_create'),
+    path('blog/<int:post_id>/edit/', post_edit, name='post_edit'),
+    path('blog/<int:post_id>/delete/', post_delete, name='post_delete'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
-    path('telegram-auth/', telegram_auth, name='telegram_auth'),
 ]
 
 # Обработка статических файлов для разработки

@@ -141,16 +141,3 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Telegram Bot Settings
-# Получите токен бота у @BotFather в Telegram
-# https://core.telegram.org/bots/tutorial#obtain-your-bot-token
-TELEGRAM_BOT_TOKEN = '8435217370:AAFIRZzKVYcxXjZbHilpJLpjoeh5Gr_LWrc'  # Замените на ваш токен бота
-TELEGRAM_BOT_USERNAME = 'HypeProfit_bot'  # Имя вашего бота (например: @my_bot)
-
-# Домен для Telegram Login Widget
-# Для локальной разработки используйте ngrok или укажите ваш домен
-# Пример: 'localhost:8000' или 'yourdomain.com'
-# ВАЖНО: Домен должен быть зарегистрирован в BotFather через команду /setdomain
-TELEGRAM_BOT_DOMAIN = 'makrei.online'  # Замените на ваш домен
-
-
