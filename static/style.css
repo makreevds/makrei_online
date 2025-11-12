@@ -68,7 +68,12 @@ body {
 
 form input[type="text"],
 form input[type="email"],
-form input[type="password"] {
+form input[type="password"],
+form textarea,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
     padding: 10px;
     border-radius: var(--border-radius);
     border: var(--border-block);
@@ -77,32 +82,116 @@ form input[type="password"] {
     font-size: 1rem;
     outline: none;
     margin-bottom: 10px;
+    font-family: Arial, sans-serif;
+    transition: border-color 0.2s;
 }
 
-form button[type="submit"] {
+form textarea,
+textarea {
+    resize: vertical;
+    min-height: 150px;
+}
 
-    border: none;
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus,
+form textarea:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+    border-color: var(--button-text);
+}
+
+form button[type="submit"],
+button[type="submit"] {
+    border: 1px solid var(--button-text);
     padding: 10px 30px;
     border-radius: var(--border-radius);
     font-size: 1rem;
     cursor: pointer;
-
     color: var(--button-text);
-    text-decoration: none;
-    font-size: 16px;
     font-weight: 500;
-    padding: 5px 10px;
-    border-radius: var(--border-radius);
     background: var(--bg-color);
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, color 0.2s;
 }
-form button[type="submit"]:hover {
-    background-color: rgba(61, 178, 158, 0.2);
+
+form button[type="submit"]:hover,
+button[type="submit"]:hover {
+    background-color: var(--button-text);
+    color: var(--bg-color);
+}
+
+/* Кнопки действий */
+.action-button {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s, opacity 0.2s;
+    border: 1px solid;
+    cursor: pointer;
+}
+
+.action-button-primary {
+    background: var(--button-text);
+    color: var(--bg-color);
+    border-color: var(--button-text);
+}
+
+.action-button-primary:hover {
+    background: rgba(61, 178, 158, 0.8);
+    border-color: rgba(61, 178, 158, 0.8);
+}
+
+.action-button-secondary {
+    background: transparent;
+    color: var(--button-text);
+    border-color: var(--button-text);
+}
+
+.action-button-secondary:hover {
+    background: rgba(61, 178, 158, 0.2);
+}
+
+.action-button-danger {
+    background: transparent;
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.action-button-danger:hover {
+    background: #ff6b6b;
+    color: var(--text-color);
+}
+
+.action-button-cancel {
+    background: transparent;
+    color: var(--text-color);
+    border-color: rgba(249, 254, 255, 0.3);
+}
+
+.action-button-cancel:hover {
+    background: rgba(249, 254, 255, 0.1);
 }
 
 h1 {
     color: var(--button-text);
     text-align: center;
+}
+
+h2 {
+    color: var(--button-text);
+}
+
+h3 {
+    color: var(--text-color);
+    margin: 0;
+}
+
+h2, h3 {
+    font-weight: 500;
 }
 
 /* Центрированная форма */
@@ -123,9 +212,14 @@ h1 {
 
 .centered-form input[type="text"],
 .centered-form input[type="email"],
-.centered-form input[type="password"] {
+.centered-form input[type="password"],
+.centered-form textarea {
     width: 100%;
     box-sizing: border-box;
+}
+
+.centered-form textarea {
+    min-height: 120px;
 }
 
 .centered-form button[type="submit"] {
@@ -164,8 +258,10 @@ main {
     padding: 24px;
 }
 
-.post-card h2 {
+.post-card h2,
+.post-card h3 {
     margin-top: 0;
+    color: var(--button-text);
 }
 
 .post-date {
@@ -177,4 +273,154 @@ main {
 .empty-message {
     text-align: center;
     opacity: 0.6;
+    padding: 40px;
+}
+
+/* Контейнер для действий блога */
+.blog-actions {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Действия с постом */
+.post-actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Карточка пользователя */
+.user-card {
+    background: var(--post-bg);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 6px var(--post-shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+    border: var(--border-block);
+}
+
+.user-card h3 {
+    margin: 0 0 10px 0;
+    color: var(--button-text);
+}
+
+.user-card h3 a {
+    color: var(--button-text);
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.user-card h3 a:hover {
+    opacity: 0.8;
+}
+
+.user-card p {
+    margin: 5px 0;
+    opacity: 0.8;
+    font-size: 0.9em;
+}
+
+/* Профиль пользователя */
+.user-profile {
+    background: var(--post-bg);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 6px var(--post-shadow);
+    padding: 24px;
+    margin-bottom: 30px;
+    border: var(--border-block);
+}
+
+.user-profile h1 {
+    margin: 0 0 10px 0;
+    text-align: left;
+}
+
+.user-profile h2 {
+    margin: 0 0 15px 0;
+    color: var(--button-text);
+    text-align: left;
+}
+
+.user-profile p {
+    margin: 5px 0;
+    opacity: 0.8;
+}
+
+/* Контейнер для поиска */
+.search-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.search-form {
+    margin-bottom: 30px;
+}
+
+.search-form-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.search-input {
+    flex: 1;
+}
+
+/* Результаты поиска */
+.search-results h2 {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.search-results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Контент поста */
+.post-content {
+    margin-bottom: 15px;
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+
+/* Сообщения об ошибках */
+.errorlist {
+    color: #ff6b6b;
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0 0;
+    font-size: 0.9em;
+}
+
+/* Контейнер для форм */
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-container-wide {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Кнопки в формах */
+.form-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Предупреждение */
+.warning-text {
+    color: #ff6b6b;
+    opacity: 0.9;
+}
+
+/* Центрированный контент */
+.centered-content {
+    text-align: center;
+    margin-top: 30px;
 }

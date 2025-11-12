@@ -1,54 +1,52 @@
 {% extends "base.html" %}
 {% block title %}Посты пользователя {{ profile_user.username }}{% endblock %}
 {% block content %}
-<div style="max-width: 900px; margin: 0 auto;">
-    <div style="margin-bottom: 30px; padding: 20px; background-color: #f9f9f9; border-radius: 5px; border: 1px solid #ddd;">
-        <h1 style="margin: 0 0 10px 0;">Профиль пользователя</h1>
-        <h2 style="margin: 0 0 10px 0; color: #007bff;">{{ profile_user.username }}</h2>
+<div class="form-container-wide">
+    <div class="user-profile">
+        <h1>Профиль пользователя</h1>
+        <h2>{{ profile_user.username }}</h2>
         {% if profile_user.first_name or profile_user.last_name %}
-            <p style="margin: 5px 0; color: #666;">
+            <p>
                 <strong>Имя:</strong> {{ profile_user.get_full_name|default:"Не указано" }}
             </p>
         {% endif %}
         {% if profile_user.email %}
-            <p style="margin: 5px 0; color: #666;">
+            <p>
                 <strong>Email:</strong> {{ profile_user.email }}
             </p>
         {% endif %}
         {% if is_own_profile %}
             <div style="margin-top: 15px;">
-                <a href="{% url 'blog' %}" class="button" style="display: inline-block; padding: 8px 16px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; margin-right: 10px;">
+                <a href="{% url 'blog' %}" class="action-button action-button-primary">
                     Управление моими постами
                 </a>
             </div>
         {% endif %}
     </div>
     
-    <h2 style="margin-bottom: 20px;">Посты пользователя ({{ posts.count }})</h2>
+    <h2 style="margin-bottom: 20px; text-align: left;">Посты пользователя ({{ posts.count }})</h2>
     
     {% if posts %}
         <div class="blog-container">
             {% for post in posts %}
-                <div class="post-card" style="margin-bottom: 20px; padding: 20px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
-                    <h3 style="margin-top: 0; color: #333;">{{ post.title }}</h3>
-                    <div class="post-date" style="color: #666; font-size: 0.9em; margin-bottom: 10px;">
+                <div class="post-card">
+                    <h3 style="margin-top: 0;">{{ post.title }}</h3>
+                    <div class="post-date">
                         📅 {{ post.created_at|date:"d.m.Y H:i" }}
                         {% if post.updated_at != post.created_at %}
                             (обновлено: {{ post.updated_at|date:"d.m.Y H:i" }})
                         {% endif %}
                     </div>
-                    <div style="margin-bottom: 15px; white-space: pre-wrap; line-height: 1.6;">{{ post.content|linebreaks }}</div>
+                    <div class="post-content">{{ post.content|linebreaks }}</div>
                 </div>
             {% endfor %}
         </div>
     {% else %}
-        <div style="text-align: center; padding: 40px; color: #666; background-color: #f9f9f9; border-radius: 5px; border: 1px solid #ddd;">
-            <p style="font-size: 1.1em;">У этого пользователя пока нет постов</p>
-        </div>
+        <p class="empty-message">У этого пользователя пока нет постов</p>
     {% endif %}
     
-    <div style="margin-top: 30px; text-align: center;">
-        <a href="{% url 'user_search' %}" class="button" style="display: inline-block; padding: 10px 20px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px;">
+    <div class="centered-content">
+        <a href="{% url 'user_search' %}" class="action-button action-button-cancel">
             ← Вернуться к поиску
         </a>
     </div>
