@@ -3,9 +3,9 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Сайт{% endblock %}</title>
     <link href="{% static 'style.css' %}" rel="stylesheet">
-    <script src="{% static 'script.js' %}" defer></script>
 </head>
 <body>
     <nav class="navbar center-buttons">
@@ -22,9 +22,9 @@
     </nav>
     <main>
         {% if messages %}
-            <div style="max-width: 800px; margin: 20px auto; padding: 10px;">
+            <div class="messages-container">
                 {% for message in messages %}
-                    <div class="post-card" style="margin-bottom: 10px; {% if message.tags == 'success' %}border-left: 4px solid var(--button-text);{% elif message.tags == 'error' %}border-left: 4px solid #ff6b6b;{% else %}border-left: 4px solid var(--button-text);{% endif %}">
+                    <div class="post-card message-card {{ message.tags }}">
                         {{ message }}
                     </div>
                 {% endfor %}
