@@ -19,7 +19,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from main.views import index, register, login_view, logout_view
-from blog.views import post_list, post_create, post_edit, post_delete
+from blog.views import post_list, post_create, post_edit, post_delete, user_search, user_posts
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +29,8 @@ urlpatterns = [
     path('blog/create/', post_create, name='post_create'),
     path('blog/<int:post_id>/edit/', post_edit, name='post_edit'),
     path('blog/<int:post_id>/delete/', post_delete, name='post_delete'),
+    path('users/search/', user_search, name='user_search'),
+    path('users/<str:username>/', user_posts, name='user_posts'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
 ]

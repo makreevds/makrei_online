@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Поиск пользователей{% endblock %}
+{% block content %}
+<h1>Поиск пользователей</h1>
+<div style="max-width: 800px; margin: 0 auto;">
+    <form method="get" action="{% url 'user_search' %}" style="margin-bottom: 30px;">
+        <div style="display: flex; gap: 10px;">
+            <input 
+                type="text" 
+                name="q" 
+                value="{{ query }}" 
+                placeholder="Введите имя пользователя, email или имя..." 
+                style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px;"
+            >
+            <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">Поиск</button>
+        </div>
+    </form>
+    
+    {% if query %}
+        {% if users %}
+            <h2>Результаты поиска ({{ users.count }}):</h2>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                {% for user in users %}
+                    <div style="padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h3 style="margin: 0 0 5px 0;">
+                                    <a href="{% url 'user_posts' user.username %}" style="color: #007bff; text-decoration: none;">
+                                        {{ user.username }}
+                                    </a>
+                                </h3>
+                                {% if user.first_name or user.last_name %}
+                                    <p style="margin: 0; color: #666; font-size: 0.9em;">
+                                        {{ user.get_full_name|default:"" }}
+                                    </p>
+                                {% endif %}
+                                {% if user.email %}
+                                    <p style="margin: 5px 0 0 0; color: #666; font-size: 0.85em;">
+                                        📧 {{ user.email }}
+                                    </p>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <a href="{% url 'user_posts' user.username %}" class="button" style="display: inline-block; padding: 8px 16px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">
+                                    Посмотреть посты
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div style="text-align: center; padding: 40px; color: #666;">
+                <p>Пользователи не найдены по запросу "{{ query }}"</p>
+            </div>
+        {% endif %}
+    {% else %}
+        <div style="text-align: center; padding: 40px; color: #666;">
+            <p>Введите запрос для поиска пользователей</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+

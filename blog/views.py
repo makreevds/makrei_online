@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.http import HttpRequest, HttpResponse, HttpResponseForbidden
+from django.db.models import Q
 from django import forms
 from .models import Post
 
@@ -86,3 +88,35 @@ def post_delete(request: HttpRequest, post_id: int) -> HttpResponse:
         return redirect('blog')
     
     return render(request, "post_delete.html", {"post": post})
+
+
+def user_search(request: HttpRequest) -> HttpResponse:
+    """Поиск пользователей."""
+    query = request.GET.get('q', '').strip()
+    users = User.objects.none()
+    
+    if query:
+        # Ищем пользователей по username, first_name, last_name, email
+        users = User.objects.filter(
+            Q(username__icontains=query) |
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query) |
+            Q(email__icontains=query)
+        ).distinct().order_by('username')
+    
+    return render(request, "user_search.html", {
+        "users": users,
+        "query": query
+    })
+
+
+def user_posts(request: HttpRequest, username: str) -> HttpResponse:
+    """Просмотр постов конкретного пользователя."""
+    user = get_object_or_404(User, username=username)
+    posts = Post.objects.filter(user=user).order_by('-created_at')
+    
+    return render(request, "user_posts.html", {
+        "profile_user": user,
+        "posts": posts,
+        "is_own_profile": request.user.is_authenticated and request.user == user
+    })

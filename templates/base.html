@@ -9,8 +9,9 @@
 <body>
     <nav class="navbar center-buttons">
         <a href="/" class="button{% if request.path == '/' %} active{% endif %}">Домой</a>
-        <a href="/blog/" class="button{% if request.path|slice:':6' == '/blog/' %} active{% endif %}">Блог</a>
         {% if user.is_authenticated %}
+            <a href="/blog/" class="button{% if request.path|slice:':6' == '/blog/' %} active{% endif %}">Мой блог</a>
+            <a href="/users/search/" class="button{% if '/users/' in request.path %} active{% endif %}">Поиск пользователей</a>
             <span class="username">{{ user.username }}</span>
             <a href="/logout/" class="button">Выйти</a>
         {% else %}
