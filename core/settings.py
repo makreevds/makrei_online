@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-1-p5r2!b2#5dhpq9$lf4e^jx1gmf*macw#ob$n+!4!t60y_s&y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False  # Включено для разработки, отключить в продакшене!
+DEBUG = True  # Включено для разработки, отключить в продакшене!
 
 ALLOWED_HOSTS = ['makrei.online', 'www.makrei.online', 'localhost', '127.0.0.1']
 

@@ -47,15 +47,24 @@ echo "5. Применяем миграции базы данных..."
 python manage.py migrate --noinput
 
 # ===============================
+# Установка DEBUG = False
+# ===============================
+echo "6. Устанавливаем DEBUG = False..."
+# Заменяем любую строку с DEBUG на DEBUG = False (сохраняем комментарий если есть)
+sed -i 's/^DEBUG = .*/DEBUG = False/' "$PROJECT_DIR/core/settings.py"
+sed -i 's/^DEBUG=.*/DEBUG = False/' "$PROJECT_DIR/core/settings.py"
+echo "DEBUG установлен в False"
+
+# ===============================
 # Сборка статики
 # ===============================
-echo "6. Собираем статику..."
+echo "7. Собираем статику..."
 python manage.py collectstatic --noinput
 
 # ===============================
 # Перезапуск Gunicorn
 # ===============================
-echo "7. Перезапускаем Gunicorn..."
+echo "8. Перезапускаем Gunicorn..."
 sudo systemctl restart $SERVICE_NAME
 echo "Статус службы: $(sudo systemctl is-active $SERVICE_NAME)"
 
