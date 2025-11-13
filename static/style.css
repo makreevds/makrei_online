@@ -37,14 +37,14 @@ body {
     box-shadow: 0 2px 12px 0 var(--post-shadow);
     border-radius: 0;
     padding: 15px 0 15px 0;
-    margin-bottom: 24px;
+    margin: -5px -5px 24px -5px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     gap: 10px;
     box-sizing: border-box;
-    width: 100%;
+    width: calc(100% + 20px);
     overflow-x: hidden;
 }
 
@@ -567,7 +567,8 @@ a:hover {
         padding: 10px 5px;
         gap: 5px;
         flex-direction: column;
-        width: 100%;
+        margin: -5px -5px 24px -5px;
+        width: calc(100% + 10px);
         box-sizing: border-box;
         overflow-x: hidden;
     }
