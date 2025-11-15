@@ -34,8 +34,8 @@ venv.bak/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-/static/
-/media/
+# /static/
+# /media/
 
 # Django migrations (optional - раскомментируйте если не хотите коммитить миграции)
 # */migrations/*.py
