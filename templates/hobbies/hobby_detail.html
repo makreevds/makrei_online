@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load hobbies_tags %}
 
 {% block title %}{{ hobby.title }} - Мои Хобби{% endblock %}
 
@@ -24,27 +25,34 @@
 </div>
 
 {% if entries %}
-<div class="entries-list">
+<div class="entries-feed">
     {% for entry in entries %}
-    <article class="entry-card">
-        <div class="entry-header">
-            <time datetime="{{ entry.created_at|date:'c' }}">{{ entry.created_at|date:"d.m.Y H:i" }}</time>
-            {% if entry.images.exists %}
-            <span class="image-count">📷 {{ entry.images.count }}</span>
-            {% endif %}
+    <article class="entry-full" data-entry-id="{{ entry.id }}">
+        <div class="entry-header-full">
+            <h2>{{ entry.title }}</h2>
+            <div class="entry-meta">
+                <time datetime="{{ entry.created_at|date:'c' }}">
+                    Создано: {{ entry.created_at|date:"d.m.Y H:i" }}
+                </time>
+                {% if entry.updated_at != entry.created_at %}
+                <time datetime="{{ entry.updated_at|date:'c' }}">
+                    Обновлено: {{ entry.updated_at|date:"d.m.Y H:i" }}
+                </time>
+                {% endif %}
+                {% if entry.images.exists %}
+                <span class="image-count">📷 {{ entry.images.count }} фото</span>
+                {% endif %}
+            </div>
         </div>
-        <h2><a href="{% url 'hobbies:entry_detail' hobby.slug entry.pk %}">{{ entry.title }}</a></h2>
-        <div class="entry-content-preview">
-            {{ entry.content|truncatewords:30|linebreaks }}
+
+        <div class="entry-content-wrapper">
+            <div class="entry-content collapsed">
+                {% render_content_with_images entry.content entry.images.all %}
+            </div>
+            <button type="button" class="btn-expand-entry toggle-btn" style="display: none;">
+                Развернуть
+            </button>
         </div>
-        {% if entry.images.exists %}
-        <div class="entry-images-preview">
-            {% for image in entry.images.all|slice:":3" %}
-            <img src="{{ image.image.url }}" alt="{{ image.caption|default:entry.title }}" class="preview-thumb">
-            {% endfor %}
-        </div>
-        {% endif %}
-        <a href="{% url 'hobbies:entry_detail' hobby.slug entry.pk %}" class="read-more">Читать далее →</a>
     </article>
     {% endfor %}
 </div>

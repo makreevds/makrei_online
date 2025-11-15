@@ -254,6 +254,22 @@ h3 {
 
 
 /* Список записей */
+/* Лента постов */
+.entries-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+.entries-feed .entry-full {
+    margin-bottom: 0;
+}
+
+.entries-feed .entry-full:last-child {
+    margin-bottom: 0;
+}
+
 .entries-list {
     display: flex;
     flex-direction: column;
@@ -356,7 +372,8 @@ h3 {
     text-decoration: underline;
 }
 
-.entry-header-full h1 {
+.entry-header-full h1,
+.entry-header-full h2 {
     margin-bottom: 1rem;
 }
 
@@ -367,14 +384,46 @@ h3 {
     font-size: 0.875rem;
 }
 
-.entry-content-full {
-    font-size: 1.125rem;
-    line-height: 1.8;
-    margin-bottom: 3rem;
+.entry-content-wrapper {
+    position: relative;
 }
 
-.entry-content-full p {
+.entry-content {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    margin: 0 3rem 1rem 3rem;
+    word-wrap: break-word;
+}
+
+.entry-content.collapsed {
+    /* Высота будет установлена через JavaScript в пикселях */
+    max-height: 100px; /* Временное значение, будет переопределено JS */
+}
+
+.entry-content p {
     margin-bottom: 1.5rem;
+}
+
+.btn-expand-entry,
+.toggle-btn {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    margin: 0 3rem 1rem 3rem;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0;
+    display: none; /* Скрываем по умолчанию, показываем через JS если нужно */
+    text-align: left;
+}
+
+.btn-expand-entry:hover,
+.toggle-btn:hover {
+    text-decoration: underline;
+    opacity: 0.8;
 }
 
 /* Изображения встроенные в текст поста */

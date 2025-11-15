@@ -48,8 +48,11 @@ class HobbyDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         hobby = self.get_object()
         
-        # Получаем все посты для хобби
-        entries = hobby.entries.all().prefetch_related('images').order_by('-created_at')
+        # Получаем все посты для хобби, отсортированные по дате (свежие сверху)
+        # Используем prefetch_related для оптимизации запросов к изображениям
+        entries = hobby.entries.all().prefetch_related(
+            'images'
+        ).order_by('-created_at')
         context['entries'] = entries
         
         return context

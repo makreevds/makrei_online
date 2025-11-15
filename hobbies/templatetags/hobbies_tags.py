@@ -8,6 +8,62 @@ from typing import List, Dict
 register = template.Library()
 
 
+@register.filter
+def first_sentences(text: str, count: int = 3) -> str:
+    """
+    Возвращает первые N предложений из текста.
+    
+    Args:
+        text: Исходный текст
+        count: Количество предложений (по умолчанию 3)
+    
+    Returns:
+        str: Первые N предложений
+    """
+    if not text:
+        return ''
+    
+    try:
+        count = int(count)
+    except (ValueError, TypeError):
+        count = 3
+    
+    # Разбиваем текст на предложения по знакам препинания
+    # Используем регулярное выражение для поиска предложений
+    # Ищем предложения, заканчивающиеся на . ! ? с последующим пробелом или концом строки
+    pattern = r'([^.!?]*[.!?]+(?:\s+|$))'
+    matches = re.findall(pattern, text)
+    
+    if matches:
+        # Берём первые count предложений
+        result_sentences = matches[:count]
+        return ' '.join(result_sentences).strip()
+    
+    # Если не нашли предложения через регулярку, используем простой метод
+    # Разбиваем по точкам, восклицательным и вопросительным знакам
+    simple_sentences = re.split(r'([.!?])', text)
+    result_sentences = []
+    current_sentence = ''
+    
+    for i, part in enumerate(simple_sentences):
+        current_sentence += part
+        if part in '.!?' and current_sentence.strip():
+            result_sentences.append(current_sentence.strip())
+            current_sentence = ''
+            if len(result_sentences) >= count:
+                break
+    
+    # Если всё ещё не хватает, добавляем оставшийся текст
+    if len(result_sentences) < count and current_sentence.strip():
+        result_sentences.append(current_sentence.strip())
+    
+    if result_sentences:
+        return ' '.join(result_sentences[:count]).strip()
+    
+    # Если вообще не нашли предложений, возвращаем первые 200 символов
+    return text[:200].strip() + '...' if len(text) > 200 else text.strip()
+
+
 @register.simple_tag
 def render_content_with_images(content: str, images: List) -> str:
     """
