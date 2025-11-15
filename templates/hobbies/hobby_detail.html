@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ hobby.title }} - Мои Хобби{% endblock %}
+
+{% block content %}
+<div class="hobby-detail-header">
+    {% if hobby.image %}
+    <div class="hobby-image-large">
+        <img src="{{ hobby.image.url }}" alt="{{ hobby.title }}">
+    </div>
+    {% endif %}
+    <div class="hobby-header-content">
+        <h1>{{ hobby.title }}</h1>
+        {% if hobby.description %}
+        <p class="hobby-description-full">{{ hobby.description }}</p>
+        {% endif %}
+        <div class="hobby-meta-large">
+            <span>Создано: {{ hobby.created_at|date:"d.m.Y" }}</span>
+            {% if hobby.updated_at != hobby.created_at %}
+            <span>Обновлено: {{ hobby.updated_at|date:"d.m.Y" }}</span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% if entries %}
+<div class="entries-list">
+    {% for entry in entries %}
+    <article class="entry-card">
+        <div class="entry-header">
+            <time datetime="{{ entry.created_at|date:'c' }}">{{ entry.created_at|date:"d.m.Y H:i" }}</time>
+            {% if entry.images.exists %}
+            <span class="image-count">📷 {{ entry.images.count }}</span>
+            {% endif %}
+        </div>
+        <h2><a href="{% url 'hobbies:entry_detail' hobby.slug entry.pk %}">{{ entry.title }}</a></h2>
+        <div class="entry-content-preview">
+            {{ entry.content|truncatewords:30|linebreaks }}
+        </div>
+        {% if entry.images.exists %}
+        <div class="entry-images-preview">
+            {% for image in entry.images.all|slice:":3" %}
+            <img src="{{ image.image.url }}" alt="{{ image.caption|default:entry.title }}" class="preview-thumb">
+            {% endfor %}
+        </div>
+        {% endif %}
+        <a href="{% url 'hobbies:entry_detail' hobby.slug entry.pk %}" class="read-more">Читать далее →</a>
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <p>Пока нет постов для этого хобби. <a href="{% url 'admin:index' %}">Добавьте первый пост в админ-панели</a>.</p>
+</div>
+{% endif %}
+{% endblock %}

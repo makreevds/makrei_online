@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load hobbies_tags %}
+
+{% block title %}{{ entry.title }} - {{ entry.hobby.title }}{% endblock %}
+
+{% block content %}
+<div class="entry-detail">
+    <nav class="breadcrumb">
+        <a href="{% url 'index' %}">Главная</a> /
+        <a href="{% url 'hobbies:list' %}">Хобби</a> /
+        <a href="{% url 'hobbies:detail' entry.hobby.slug %}">{{ entry.hobby.title }}</a> /
+        <span>{{ entry.title }}</span>
+    </nav>
+
+    <article class="entry-full">
+        <div class="entry-header-full">
+            <div class="entry-meta-top">
+                <a href="{% url 'hobbies:detail' entry.hobby.slug %}" class="hobby-link">
+                    ← {{ entry.hobby.title }}
+                </a>
+            </div>
+            <h1>{{ entry.title }}</h1>
+            <div class="entry-meta">
+                <time datetime="{{ entry.created_at|date:'c' }}">
+                    Создано: {{ entry.created_at|date:"d.m.Y H:i" }}
+                </time>
+                {% if entry.updated_at != entry.created_at %}
+                <time datetime="{{ entry.updated_at|date:'c' }}">
+                    Обновлено: {{ entry.updated_at|date:"d.m.Y H:i" }}
+                </time>
+                {% endif %}
+                {% if images %}
+                <span class="image-count">📷 {{ images.count }} фото</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="entry-content-full">
+            {% render_content_with_images entry.content images %}
+        </div>
+
+        <div class="entry-navigation">
+            {% if prev_entry %}
+            <a href="{% url 'hobbies:entry_detail' entry.hobby.slug prev_entry.pk %}" class="nav-entry prev-entry">
+                ← {{ prev_entry.title|truncatewords:5 }}
+            </a>
+            {% endif %}
+            {% if next_entry %}
+            <a href="{% url 'hobbies:entry_detail' entry.hobby.slug next_entry.pk %}" class="nav-entry next-entry">
+                {{ next_entry.title|truncatewords:5 }} →
+            </a>
+            {% endif %}
+        </div>
+    </article>
+</div>
+{% endblock %}

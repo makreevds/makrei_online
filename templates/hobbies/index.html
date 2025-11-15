@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная - makrei.ru{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <h1>Добро пожаловать на makrei.ru!</h1>
+    <p class="lead">Здесь я делюсь своими проектами и заметками.</p>
+    <a href="{% url 'hobbies:list' %}" class="btn btn-primary">Посмотреть проекты</a>
+</div>
+{% endblock %}
+

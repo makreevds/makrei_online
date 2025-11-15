@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Проекты - makrei.ru{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Проекты</h1>
+</div>
+
+{% if hobbies %}
+<div class="hobbies-grid">
+    {% for hobby in hobbies %}
+    <div class="hobby-card">
+        {% if hobby.image %}
+        <div class="hobby-image">
+            <img src="{{ hobby.image.url }}" alt="{{ hobby.title }}">
+        </div>
+        {% endif %}
+        <div class="hobby-content">
+            <h2><a href="{% url 'hobbies:detail' hobby.slug %}">{{ hobby.title }}</a></h2>
+            {% if hobby.description %}
+            <p class="hobby-description">{{ hobby.description|truncatewords:25 }}</p>
+            {% endif %}
+            <div class="hobby-meta">
+                <span class="entry-count">{{ hobby.entries_count }} постов</span>
+                <span class="hobby-date">{{ hobby.created_at|date:"d.m.Y" }}</span>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+<nav class="pagination">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}" class="btn">Назад</a>
+    {% endif %}
+    
+    <span class="page-info">
+        Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+    </span>
+    
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="btn">Вперёд</a>
+    {% endif %}
+</nav>
+{% endif %}
+
+{% else %}
+<div class="empty-state">
+    <p>Пока нет хобби. <a href="{% url 'admin:index' %}">Добавьте первое хобби в админ-панели</a>.</p>
+</div>
+{% endif %}
+{% endblock %}
+
