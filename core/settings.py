@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -141,3 +142,38 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+# Настройки логирования
+# Фильтруем служебные запросы от Chrome DevTools и других инструментов
+def ignore_chrome_devtools(record: logging.LogRecord) -> bool:
+    """Фильтр для игнорирования запросов от Chrome DevTools."""
+    if record.levelname == 'WARNING' and hasattr(record, 'getMessage'):
+        message = record.getMessage()
+        if '.well-known/' in message or 'appspecific/com.chrome.devtools' in message:
+            return False
+    return True
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'ignore_chrome_devtools': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': ignore_chrome_devtools,
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'filters': ['ignore_chrome_devtools'],
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+    },
+}

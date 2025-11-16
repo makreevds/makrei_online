@@ -16,8 +16,8 @@
             <img src="{{ hobby.image.url }}" alt="{{ hobby.title }}">
         </div>
         {% endif %}
-        <div class="hobby-content">
-            <h2><a href="{% url 'hobbies:detail' hobby.slug %}">{{ hobby.title }}</a></h2>
+        <a href="{% url 'hobbies:detail' hobby.slug %}" class="hobby-content">
+            <h2>{{ hobby.title }}</h2>
             {% if hobby.description %}
             <p class="hobby-description">{{ hobby.description|truncatewords:25 }}</p>
             {% endif %}
@@ -25,7 +25,7 @@
                 <span class="entry-count">{{ hobby.entries_count }} постов</span>
                 <span class="hobby-date">{{ hobby.created_at|date:"d.m.Y" }}</span>
             </div>
-        </div>
+        </a>
     </div>
     {% endfor %}
 </div>
