@@ -7,7 +7,7 @@
 <div class="entry-detail">
     <nav class="breadcrumb">
         <a href="{% url 'index' %}">Главная</a> /
-        <a href="{% url 'hobbies:list' %}">Хобби</a> /
+        <a href="{% url 'hobbies:list' %}">Проекты</a> /
         <a href="{% url 'hobbies:detail' entry.hobby.slug %}">{{ entry.hobby.title }}</a> /
         <span>{{ entry.title }}</span>
     </nav>

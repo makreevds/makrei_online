@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load hobbies_tags %}
 
-{% block title %}{{ hobby.title }} - Мои Хобби{% endblock %}
+{% block title %}{{ hobby.title }} - Мои Проекты{% endblock %}
 
 {% block content %}
 <div class="hobby-detail-header">
@@ -58,7 +58,7 @@
 </div>
 {% else %}
 <div class="empty-state">
-    <p>Пока нет постов для этого хобби. <a href="{% url 'admin:index' %}">Добавьте первый пост в админ-панели</a>.</p>
+    <p>Пока нет постов для этого проекта. <a href="{% url 'admin:index' %}">Добавьте первый пост в админ-панели</a>.</p>
 </div>
 {% endif %}
 {% endblock %}

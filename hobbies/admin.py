@@ -1,4 +1,4 @@
-"""Административный интерфейс для моделей хобби."""
+"""Административный интерфейс для моделей проектов."""
 from django.contrib import admin
 from django.utils.html import format_html
 from typing import Optional
@@ -30,7 +30,7 @@ class HobbyAdmin(admin.ModelAdmin):
     )
     
     def entry_count(self, obj: Hobby) -> int:
-        """Возвращает количество постов для хобби."""
+        """Возвращает количество постов для проекта."""
         return obj.entries.count()
     entry_count.short_description = 'Постов'
     
@@ -55,7 +55,7 @@ class EntryImageInline(admin.TabularInline):
 
 
 class EntryInline(admin.TabularInline):
-    """Инлайн-редактирование постов в админке хобби."""
+    """Инлайн-редактирование постов в админке проекта."""
     
     model = Entry
     extra = 0

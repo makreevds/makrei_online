@@ -1,4 +1,4 @@
-"""Модели для управления хобби и постами."""
+"""Модели для управления проектами и постами."""
 from django.db import models
 from django.urls import reverse
 from typing import Optional
@@ -6,15 +6,15 @@ from typing import Optional
 
 class Hobby(models.Model):
     """
-    Модель хобби.
+    Модель проекта.
     
-    Хранит информацию о каждом хобби пользователя.
+    Хранит информацию о каждом проекте пользователя.
     """
     
     title = models.CharField(
         max_length=200,
         verbose_name='Название',
-        help_text='Название вашего хобби'
+        help_text='Название вашего проекта'
     )
     slug = models.SlugField(
         max_length=200,
@@ -25,14 +25,14 @@ class Hobby(models.Model):
     description = models.TextField(
         blank=True,
         verbose_name='Описание',
-        help_text='Краткое описание хобби'
+        help_text='Краткое описание проекта'
     )
     image = models.ImageField(
         upload_to='hobbies/',
         blank=True,
         null=True,
         verbose_name='Изображение',
-        help_text='Изображение для хобби'
+        help_text='Изображение для проекта'
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -45,17 +45,17 @@ class Hobby(models.Model):
     )
     
     class Meta:
-        verbose_name = 'Хобби'
-        verbose_name_plural = 'Хобби'
+        verbose_name = 'Проект'
+        verbose_name_plural = 'Проекты'
         ordering = ['-created_at']
         db_table = 'hobbies'
     
     def __str__(self) -> str:
-        """Возвращает строковое представление хобби."""
+        """Возвращает строковое представление проекта."""
         return self.title
     
     def get_absolute_url(self) -> str:
-        """Возвращает URL для детального просмотра хобби."""
+        """Возвращает URL для детального просмотра проекта."""
         return reverse('hobbies:detail', kwargs={'slug': self.slug})
 
 
@@ -63,14 +63,14 @@ class Entry(models.Model):
     """
     Модель поста.
     
-    Хранит посты, связанные с хобби.
+    Хранит посты, связанные с проектами.
     """
     
     hobby = models.ForeignKey(
         Hobby,
         on_delete=models.CASCADE,
         related_name='entries',
-        verbose_name='Хобби',
+        verbose_name='Проект',
         db_index=True
     )
     title = models.CharField(
