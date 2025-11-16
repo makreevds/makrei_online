@@ -26,25 +26,73 @@ def password_list(request: HttpRequest) -> HttpResponse:
     
     # Если паролей нет - показываем форму для установки мастер-пароля
     if not has_passwords:
+        # Если мастер-пароль уже подтвержден в сессии, показываем интерфейс для работы
+        if request.session.get('master_password_verified'):
+            return render(request, 'passwords/password_list.html', {
+                'form': None,
+                'has_passwords': True,
+                'entries': [],  # Пустой список, чтобы показать интерфейс
+                'decrypted_passwords': {},
+                'master_password_verified': True,
+            })
+        
+        # Если мастер-пароль установлен, но еще не подтвержден - показываем форму ввода
+        if request.session.get('master_password'):
+            form = MasterPasswordForm()
+            
+            if request.method == 'POST':
+                form = MasterPasswordForm(request.POST)
+                if form.is_valid():
+                    master_password = form.cleaned_data['master_password']
+                    # Проверяем, что введенный пароль совпадает с сохраненным в сессии
+                    session_password = request.session.get('master_password')
+                    if master_password == session_password:
+                        # Пароль подтвержден - можно работать с паролями
+                        request.session['master_password_verified'] = True
+                        request.session['master_password'] = master_password
+                        messages.success(
+                            request,
+                            'Мастер-пароль подтверждён! Теперь вы можете добавлять пароли.'
+                        )
+                        # Показываем интерфейс для работы с паролями (пустой список)
+                        return render(request, 'passwords/password_list.html', {
+                            'form': None,
+                            'has_passwords': True,
+                            'entries': [],  # Пустой список, чтобы показать интерфейс
+                            'decrypted_passwords': {},
+                            'master_password_verified': True,
+                        })
+                    else:
+                        messages.error(
+                            request,
+                            'Введённый пароль не совпадает с установленным мастер-паролем.'
+                        )
+            
+            return render(request, 'passwords/password_list.html', {
+                'form': form,
+                'has_passwords': True,  # Показываем как будто пароли есть, чтобы показать форму ввода
+                'entries': None,
+                'decrypted_passwords': {},
+                'master_password_verified': False,  # Еще не подтвержден
+            })
+        
+        # Если мастер-пароль еще не установлен - показываем форму установки
         setup_form = MasterPasswordSetupForm()
         
         if request.method == 'POST':
             setup_form = MasterPasswordSetupForm(request.POST)
             if setup_form.is_valid():
                 master_password = setup_form.cleaned_data['master_password']
-                # Сохраняем мастер-пароль в сессии для текущей сессии
-                request.session['master_password_verified'] = True
+                # Сохраняем мастер-пароль в сессии, но НЕ устанавливаем verified
+                # Пользователь должен подтвердить пароль
                 request.session['master_password'] = master_password
+                request.session.pop('master_password_verified', None)  # Убираем verified, если был
                 messages.success(
                     request,
-                    'Мастер-пароль успешно установлен! Теперь вы можете добавлять пароли.'
+                    'Мастер-пароль успешно установлен! Теперь введите его для подтверждения.'
                 )
-                return render(request, 'passwords/password_list.html', {
-                    'setup_form': setup_form,
-                    'has_passwords': False,
-                    'entries': None,
-                    'decrypted_passwords': {},
-                })
+                # Перенаправляем на ту же страницу, чтобы показать форму ввода
+                return redirect('passwords:list')
         
         return render(request, 'passwords/password_list.html', {
             'setup_form': setup_form,
@@ -89,16 +137,20 @@ def password_list(request: HttpRequest) -> HttpResponse:
         master_password = request.session.get('master_password')
         if master_password:
             entries = PasswordEntry.objects.all().order_by('-created_at')
-            for entry in entries:
-                decrypted = decrypt_password(entry.password_encrypted, master_password)
-                if decrypted:
-                    decrypted_passwords[entry.id] = decrypted
+            if entries:
+                for entry in entries:
+                    decrypted = decrypt_password(entry.password_encrypted, master_password)
+                    if decrypted:
+                        decrypted_passwords[entry.id] = decrypted
+            else:
+                entries = []  # Пустой список, если паролей нет
     
     return render(request, 'passwords/password_list.html', {
         'form': form,
         'has_passwords': True,
         'entries': entries,
         'decrypted_passwords': decrypted_passwords,
+        'master_password_verified': request.session.get('master_password_verified', False),
     })
 
 
