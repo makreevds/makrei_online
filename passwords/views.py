@@ -118,8 +118,7 @@ def password_list(request: HttpRequest) -> HttpResponse:
                 else:
                     messages.error(
                         request,
-                        f'Не удалось расшифровать пароль для {entry.service}. '
-                        'Проверьте правильность мастер-пароля.'
+                        f'Неверный мастер-пароль.'
                     )
                     return render(request, 'passwords/password_list.html', {
                         'form': form,
