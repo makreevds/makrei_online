@@ -18,7 +18,7 @@ function collapseSection(element) {
 
 function initHeights() {
     document.querySelectorAll('.entry-content').forEach((content) => {
-        const toggleBtn = content.nextElementSibling;
+        const toggleBtn = content.parentElement.querySelector('.toggle-btn');
         const collapsedHeight = getCollapsedHeightPx(content);
         
         // Сначала применяем collapsed, чтобы блок был свернут
@@ -56,7 +56,7 @@ function initHeights() {
 
 function handleResize() {
     document.querySelectorAll('.entry-content').forEach((content) => {
-        const toggleBtn = content.nextElementSibling;
+        const toggleBtn = content.parentElement.querySelector('.toggle-btn');
         const collapsedHeight = getCollapsedHeightPx(content);
         
         // Временно убираем ограничения для проверки
@@ -95,7 +95,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.toggle-btn').forEach((button) => {
         button.addEventListener('click', () => {
-            const postContent = button.previousElementSibling;
+            const postContent = button.closest('.entry-content-wrapper').querySelector('.entry-content');
             const isCollapsed = postContent.classList.contains('collapsed');
 
             if (isCollapsed) {

@@ -11,13 +11,13 @@
 <div class="hobbies-grid">
     {% for hobby in hobbies %}
     <div class="hobby-card">
-        {% if hobby.image %}
-        <div class="hobby-image">
-            <img src="{{ hobby.image.url }}" alt="{{ hobby.title }}">
-        </div>
-        {% endif %}
         <a href="{% url 'hobbies:detail' hobby.slug %}" class="hobby-content">
-            <h2>{{ hobby.title }}</h2>
+            <div class="hobby-header-inline">
+                {% if hobby.image %}
+                <img src="{{ hobby.image.url }}" alt="{{ hobby.title }}" class="project-avatar">
+                {% endif %}
+                <h2>{{ hobby.title }}</h2>
+            </div>
             {% if hobby.description %}
             <p class="hobby-description">{{ hobby.description|truncatewords:25 }}</p>
             {% endif %}

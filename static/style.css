@@ -28,6 +28,10 @@ body {
     flex-direction: column;
 }
 
+header {
+    margin-bottom: 1rem;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -174,13 +178,28 @@ h3 {
 }
 
 .hobby-content {
-    padding: 1.5rem;
-    flex: 1;
     display: flex;
     flex-direction: column;
+    padding: 1.5rem;
+    flex: 1;
     color: var(--text-color);
     text-decoration: none;
     transition: color 0.2s;
+}
+
+.hobby-content .project-avatar {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px var(--border-color);
+    background: var(--border-color);
+}
+.hobby-content h2 {
+    margin-bottom: 0;
+    line-height: 1;
+    font-size: 1.5rem;
 }
 
 .hobby-content:hover {
@@ -217,33 +236,37 @@ h3 {
 }
 
 /* Детальная страница проекта */
-.hobby-image-large {
-    width: 100%;
-    max-height: 400px;
-    overflow: hidden;
-    border-radius: 0.75rem;
-    margin-bottom: 2rem;
-    background-color: var(--border-color);
-}
 
-.hobby-image-large img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.hobby-detail-header {
+    padding: 0 1.5rem 0 1.5rem;
 }
 
 .hobby-header-content {
-    padding:0 1.5rem 0 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
+.project-avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px var(--border-color);
+    background: var(--border-color);
+}
 .hobby-header-content h1 {
-    margin-bottom: 0rem;
+    margin-bottom: 0;
+    line-height: 1;
+    font-size: 2.5rem;
 }
 
 .hobby-description-full {
     font-size: 1rem;
     color: var(--text-light);
     margin-bottom: 0rem;
+    margin-top: 0.75rem;
     line-height: 1.2;
 }
 
@@ -254,6 +277,34 @@ h3 {
     font-size: 0.875rem;
 }
 
+.hobby-header-inline {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.hobby-content .project-avatar {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px var(--border-color);
+    background: var(--border-color);
+}
+.hobby-header-inline h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+.hobby-description {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-bottom: 1rem;
+    margin-top: 0;
+    flex: 1;
+}
 
 /* Список записей */
 /* Лента постов */
@@ -811,5 +862,35 @@ footer {
     .form-actions .btn {
         width: 100%;
     }
+}
+
+.expand-btn-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+}
+
+.btn-expand-entry.toggle-btn {
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 2rem;
+    padding: 0.5rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,.03);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    outline: none;
+    display: inline-block;
+}
+
+.btn-expand-entry.toggle-btn:hover,
+.btn-expand-entry.toggle-btn:focus {
+    background: var(--primary-color-dark, #2c2480);
+    color: #fff;
+    box-shadow: 0 4px 14px 0 rgba(44,36,128,.07);
+    text-decoration: none;
 }
 
