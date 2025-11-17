@@ -35,17 +35,46 @@
     var metaballMixB = parseFloat(rootStyles.getPropertyValue('--metaball-mix-color-b').trim()) / 255.0;
     var metaballOpacity = parseFloat(rootStyles.getPropertyValue('--metaball-opacity').trim());
     
-    var numMetaballs = 25;
+    // Адаптивные параметры в зависимости от размера экрана
+    function getAdaptiveParams() {
+        var screenWidth = window.innerWidth;
+        var screenHeight = window.innerHeight;
+        var screenArea = screenWidth * screenHeight;
+        
+        // Количество метаболов: меньше на маленьких экранах
+        // Базовое количество рассчитывается от площади экрана
+        var baseNumMetaballs = Math.floor(screenArea / 50000); // примерно 1 метабол на 50000 пикселей
+        var numMetaballs = Math.max(8, Math.min(30, baseNumMetaballs)); // минимум 8, максимум 30
+        
+        // Размер метаболов: меньше на маленьких экранах
+        var minRadius = screenWidth < 768 ? 15 : 30; // на мобильных меньше
+        var maxRadius = screenWidth < 768 ? 50 : 80; // на мобильных меньше
+        var radiusMultiplier = screenWidth < 768 ? 0.6 : 0.75; // коэффициент размера
+        
+        // Скорость движения: медленнее на маленьких экранах
+        var speedMultiplier = screenWidth < 768 ? 1.2 : 2.0;
+        
+        return {
+            numMetaballs: numMetaballs,
+            minRadius: minRadius,
+            maxRadius: maxRadius,
+            radiusMultiplier: radiusMultiplier,
+            speedMultiplier: speedMultiplier
+        };
+    }
+    
+    var params = getAdaptiveParams();
+    var numMetaballs = params.numMetaballs;
     var metaballs = [];
     
     for (var i = 0; i < numMetaballs; i++) {
-        var radius = Math.random() * 80 + 30;
+        var radius = Math.random() * (params.maxRadius - params.minRadius) + params.minRadius;
         metaballs.push({
             x: Math.random() * (width - 2 * radius) + radius,
             y: Math.random() * (height - 2 * radius) + radius,
-            vx: (Math.random() - 0.5) * 2,
-            vy: (Math.random() - 0.5) * 2,
-            r: radius * 0.75
+            vx: (Math.random() - 0.5) * params.speedMultiplier,
+            vy: (Math.random() - 0.5) * params.speedMultiplier,
+            r: radius * params.radiusMultiplier
         });
     }
     
@@ -120,9 +149,30 @@
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
         gl.viewport(0, 0, width, height);
+        
+        // Обновляем позиции метаболов, если они вышли за границы
+        var newParams = getAdaptiveParams();
+        for (var i = 0; i < metaballs.length; i++) {
+            var mb = metaballs[i];
+            // Если метабол вышел за границы, перемещаем его
+            if (mb.x < mb.r || mb.x > width - mb.r) {
+                mb.x = Math.random() * (width - 2 * mb.r) + mb.r;
+            }
+            if (mb.y < mb.r || mb.y > height - mb.r) {
+                mb.y = Math.random() * (height - 2 * mb.r) + mb.r;
+            }
+            // Обновляем скорости в соответствии с новым размером экрана
+            mb.vx = (Math.random() - 0.5) * newParams.speedMultiplier;
+            mb.vy = (Math.random() - 0.5) * newParams.speedMultiplier;
+        }
     }
     
-    window.addEventListener('resize', handleResize);
+    // Debounce для resize, чтобы не пересчитывать слишком часто
+    var resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(handleResize, 150);
+    });
     
     loop();
     
