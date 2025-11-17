@@ -6,16 +6,43 @@
 }
 
 :root {
+    /* Основные цвета */
     --primary-color: #2563eb;
     --primary-hover: #1d4ed8;
     --secondary-color: #64748b;
+    
+    /* Фон и карточки */
     --bg-color: #f8fafc;
     --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    
+    /* Текст */
     --text-color: #1e293b;
     --text-light: #64748b;
-    --border-color: #e2e8f0;
-    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --text-on-primary: #ffffff;
+    
+    /* Тени */
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --shadow: 0 1px 3px 0 var(--shadow-color), 0 1px 2px -1px var(--shadow-color);
+    --shadow-lg: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -4px var(--shadow-color);
+    --shadow-primary-color: rgba(37, 99, 235, 0.1);
+    --shadow-primary-hover-color: rgba(44, 36, 128, 0.07);
+    --shadow-button-color: rgba(0, 0, 0, 0.03);
+    --shadow-primary: 0 0 0 3px var(--shadow-primary-color);
+    --shadow-primary-hover: 0 4px 14px 0 var(--shadow-primary-hover-color);
+    --shadow-button: 0 2px 6px var(--shadow-button-color);
+    
+    /* Цвета метаболов (значения 0-255 для RGB компонентов) */
+    /* Основной цвет метаболов (яркий цвет) */
+    --metaball-color-r: 37;
+    --metaball-color-g: 99;
+    --metaball-color-b: 235;
+    /* Цвет для смешивания (темный цвет, к которому переходит градиент) */
+    --metaball-mix-color-r: 212;
+    --metaball-mix-color-g: 222;
+    --metaball-mix-color-b: 222;
+    /* Прозрачность метаболов (0.0 - полностью прозрачно, 1.0 - непрозрачно) */
+    --metaball-opacity: 0.8
 }
 
 body {
@@ -26,6 +53,18 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    position: relative;
+}
+
+/* Canvas для эффекта метаболов на фоне */
+#metaballs-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
 }
 
 header {
@@ -105,7 +144,7 @@ h3 {
     display: inline-block;
     padding: 0.75rem 1.5rem;
     background-color: var(--primary-color);
-    color: white;
+    color: var(--text-on-primary);
     text-decoration: none;
     border-radius: 0.5rem;
     font-weight: 500;
@@ -742,7 +781,7 @@ footer {
 .form-control:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    box-shadow: var(--shadow-primary);
 }
 
 .form-text {
@@ -814,7 +853,7 @@ footer {
     padding: 0.25rem 0.75rem;
     font-size: 0.875rem;
     background-color: var(--secondary-color);
-    color: white;
+    color: var(--text-on-primary);
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -832,7 +871,7 @@ footer {
 
 .btn-danger {
     background-color: #dc2626;
-    color: white;
+    color: var(--text-on-primary);
 }
 
 .btn-danger:hover {
@@ -879,7 +918,7 @@ footer {
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0,0,0,.03);
+    box-shadow: var(--shadow-button);
     transition: background 0.2s, color 0.2s, box-shadow 0.2s;
     text-decoration: none;
     outline: none;
@@ -888,9 +927,9 @@ footer {
 
 .btn-expand-entry.toggle-btn:hover,
 .btn-expand-entry.toggle-btn:focus {
-    background: var(--primary-color-dark, #2c2480);
-    color: #fff;
-    box-shadow: 0 4px 14px 0 rgba(44,36,128,.07);
+    background: var(--primary-hover);
+    color: var(--text-on-primary);
+    box-shadow: var(--shadow-primary-hover);
     text-decoration: none;
 }
 
