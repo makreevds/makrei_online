@@ -84,6 +84,7 @@ header {
     border-bottom: 1px solid var(--border-color);
     padding: 1rem 0;
     box-shadow: var(--shadow);
+    outline: 1px solid var(--primary-color);
 }
 
 .navbar .container {
@@ -201,6 +202,7 @@ h3 {
 .hobby-card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
+    outline: 1px solid var(--primary-color);
 }
 
 .hobby-image {
@@ -256,7 +258,7 @@ h3 {
 }
 
 .hobby-description {
-    color: var(--text-light);
+    color: var(--text-color);
     margin-bottom: 1rem;
     flex: 1;
 }
@@ -339,7 +341,7 @@ h3 {
 }
 .hobby-description {
     font-size: 1rem;
-    color: var(--text-light);
+    color: var(--text-color);
     margin-bottom: 1rem;
     margin-top: 0;
     flex: 1;
