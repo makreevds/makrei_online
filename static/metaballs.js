@@ -47,9 +47,12 @@
         var numMetaballs = Math.max(8, Math.min(30, baseNumMetaballs)); // минимум 8, максимум 30
         
         // Размер метаболов: меньше на маленьких экранах
-        var minRadius = screenWidth < 768 ? 15 : 30; // на мобильных меньше
-        var maxRadius = screenWidth < 768 ? 50 : 80; // на мобильных меньше
-        var radiusMultiplier = screenWidth < 768 ? 0.6 : 0.75; // коэффициент размера
+        var minRadius = screenWidth < 768 ? 40 : 60; // на мобильных меньше
+        var maxRadius = screenWidth < 768 ? 40 : 60; // на мобильных меньше
+        // radiusMultiplier определяет коэффициент, на который умножается радиус каждого метабола.
+        // Здесь это всегда 1.2 и для мобильных (<768px), и для остальных экранов —
+        // то есть радиус фактически увеличивается на 20% по сравнению с базовым вычисленным.
+        var radiusMultiplier = 1.2;
         
         // Скорость движения: медленнее на маленьких экранах
         var speedMultiplier = screenWidth < 768 ? 1.2 : 2.0;
