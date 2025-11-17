@@ -24,13 +24,13 @@
             <h2>{{ entry.title }}</h2>
             <div class="entry-meta">
                 <time datetime="{{ entry.created_at|date:'c' }}">
-                    {% if entry.updated_at != entry.created_at %}
-                        <span title="Создано: {{ entry.created_at|date:'d.m.y H:i' }}">
-                            Обновлено: {{ entry.updated_at|date:"d.m.y H:i" }}
-                        </span>
-                    {% else %}
-                        Создано: {{ entry.created_at|date:"d.m.y H:i" }}
-                    {% endif %}
+                    Создано: {{ entry.created_at|date:"d.m.y H:i" }}
+                </time>
+                {% if entry.updated_at != entry.created_at %}
+                <time datetime="{{ entry.updated_at|date:'c' }}">
+                    Обновлено: {{ entry.updated_at|date:"d.m.y H:i" }}
+                </time>
+                {% endif %}
                 {% if entry.images.exists %}
                 <span class="image-count">📷 {{ entry.images.count }} фото</span>
                 {% endif %}
