@@ -13,6 +13,7 @@ from hobbies.views import index
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
+    path('accounts/', include('accounts.urls')),
     path('hobbies/', include('hobbies.urls')),
     path('passwords/', include('passwords.urls')),
 ]

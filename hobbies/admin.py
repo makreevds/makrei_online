@@ -10,15 +10,15 @@ from .models import Hobby, Entry, EntryImage
 class HobbyAdmin(admin.ModelAdmin):
     """Административный интерфейс для модели Hobby."""
     
-    list_display = ['title', 'slug', 'entry_count', 'created_at', 'image_preview']
-    list_filter = ['created_at', 'updated_at']
-    search_fields = ['title', 'description', 'slug']
+    list_display = ['title', 'user', 'slug', 'entry_count', 'created_at', 'image_preview']
+    list_filter = ['created_at', 'updated_at', 'user']
+    search_fields = ['title', 'description', 'slug', 'user__username']
     prepopulated_fields = {'slug': ('title',)}
     readonly_fields = ['created_at', 'updated_at', 'image_preview']
     
     fieldsets = (
         ('Основная информация', {
-            'fields': ('title', 'slug', 'description')
+            'fields': ('user', 'title', 'slug', 'description')
         }),
         ('Медиа', {
             'fields': ('image', 'image_preview')

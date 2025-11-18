@@ -1,6 +1,7 @@
 """Модели для управления проектами и постами."""
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 from typing import Optional
 
 
@@ -11,6 +12,15 @@ class Hobby(models.Model):
     Хранит информацию о каждом проекте пользователя.
     """
     
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='hobbies',
+        verbose_name='Пользователь',
+        db_index=True,
+        null=True,
+        blank=True
+    )
     title = models.CharField(
         max_length=200,
         verbose_name='Название',
@@ -18,7 +28,6 @@ class Hobby(models.Model):
     )
     slug = models.SlugField(
         max_length=200,
-        unique=True,
         verbose_name='URL-адрес',
         help_text='Уникальный идентификатор для URL'
     )
@@ -49,6 +58,12 @@ class Hobby(models.Model):
         verbose_name_plural = 'Проекты'
         ordering = ['-created_at']
         db_table = 'hobbies'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'slug'],
+                name='unique_user_slug'
+            )
+        ]
     
     def __str__(self) -> str:
         """Возвращает строковое представление проекта."""

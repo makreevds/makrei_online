@@ -149,21 +149,25 @@ class PasswordEntryForm(forms.ModelForm):
             'email': 'Email',
         }
     
-    def save(self, commit: bool = True, master_password: Optional[str] = None) -> PasswordEntry:
+    def save(self, commit: bool = True, master_password: Optional[str] = None, user=None) -> PasswordEntry:
         """
         Сохраняет запись с зашифрованным паролем.
         
         Args:
             commit: Сохранять ли объект в базу данных
             master_password: Мастер-пароль для шифрования (должен быть передан из сессии)
+            user: Пользователь, которому принадлежит запись
         
         Returns:
             PasswordEntry: Сохранённый объект записи пароля
         """
         if not master_password:
             raise ValueError('Мастер-пароль должен быть указан для шифрования пароля.')
+        if not user:
+            raise ValueError('Пользователь должен быть указан.')
         
         instance = super().save(commit=False)
+        instance.user = user
         password = self.cleaned_data.get('password')
         
         # Шифруем пароль только если он указан

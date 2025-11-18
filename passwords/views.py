@@ -1,6 +1,7 @@
 """Представления для работы с паролями."""
 from typing import Optional
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -10,10 +11,11 @@ from .forms import MasterPasswordForm, MasterPasswordSetupForm, MasterPasswordCh
 from .utils import decrypt_password, encrypt_password
 
 
+@login_required
 @require_http_methods(["GET", "POST"])
 def password_list(request: HttpRequest) -> HttpResponse:
     """
-    Список всех паролей.
+    Список всех паролей текущего пользователя.
     
     Если паролей нет - показывает форму для создания мастер-пароля.
     Если пароли есть - требует ввода мастер-пароля для расшифровки.
@@ -21,8 +23,8 @@ def password_list(request: HttpRequest) -> HttpResponse:
     entries: Optional[QuerySet[PasswordEntry]] = None
     decrypted_passwords: dict[int, str] = {}
     
-    # Проверяем, есть ли уже пароли в базе
-    has_passwords = PasswordEntry.objects.exists()
+    # Проверяем, есть ли уже пароли у текущего пользователя
+    has_passwords = PasswordEntry.objects.filter(user=request.user).exists()
     
     # Если паролей нет - показываем форму для установки мастер-пароля
     if not has_passwords:
@@ -108,7 +110,9 @@ def password_list(request: HttpRequest) -> HttpResponse:
         form = MasterPasswordForm(request.POST)
         if form.is_valid():
             master_password = form.cleaned_data['master_password']
-            entries = PasswordEntry.objects.all().order_by('-created_at')
+            entries = PasswordEntry.objects.filter(
+                user=request.user
+            ).order_by('-created_at')
             
             # Расшифровываем пароли
             for entry in entries:
@@ -135,7 +139,9 @@ def password_list(request: HttpRequest) -> HttpResponse:
     if request.session.get('master_password_verified'):
         master_password = request.session.get('master_password')
         if master_password:
-            entries = PasswordEntry.objects.all().order_by('-created_at')
+            entries = PasswordEntry.objects.filter(
+                user=request.user
+            ).order_by('-created_at')
             if entries:
                 for entry in entries:
                     decrypted = decrypt_password(entry.password_encrypted, master_password)
@@ -153,6 +159,7 @@ def password_list(request: HttpRequest) -> HttpResponse:
     })
 
 
+@login_required
 @require_http_methods(["GET", "POST"])
 def password_create(request: HttpRequest) -> HttpResponse:
     """Создание новой записи пароля."""
@@ -175,7 +182,7 @@ def password_create(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
         form = PasswordEntryForm(request.POST)
         if form.is_valid():
-            form.save(master_password=master_password)
+            form.save(master_password=master_password, user=request.user)
             messages.success(request, 'Пароль успешно сохранён!')
             return redirect('passwords:list')
     else:
@@ -187,6 +194,7 @@ def password_create(request: HttpRequest) -> HttpResponse:
     })
 
 
+@login_required
 @require_http_methods(["GET", "POST"])
 def password_update(request: HttpRequest, pk: int) -> HttpResponse:
     """Редактирование записи пароля."""
@@ -206,7 +214,7 @@ def password_update(request: HttpRequest, pk: int) -> HttpResponse:
         )
         return redirect('passwords:list')
     
-    entry = get_object_or_404(PasswordEntry, pk=pk)
+    entry = get_object_or_404(PasswordEntry, pk=pk, user=request.user)
     
     if request.method == 'POST':
         form = PasswordEntryForm(request.POST, instance=entry)
@@ -214,7 +222,7 @@ def password_update(request: HttpRequest, pk: int) -> HttpResponse:
             # Если пароль не указан, сохраняем старый зашифрованный пароль
             if not form.cleaned_data.get('password'):
                 form.instance.password_encrypted = entry.password_encrypted
-            form.save(master_password=master_password)
+            form.save(master_password=master_password, user=request.user)
             messages.success(request, 'Пароль успешно обновлён!')
             return redirect('passwords:list')
     else:
@@ -227,10 +235,11 @@ def password_update(request: HttpRequest, pk: int) -> HttpResponse:
     })
 
 
+@login_required
 @require_http_methods(["POST"])
 def password_delete(request: HttpRequest, pk: int) -> HttpResponse:
     """Удаление записи пароля."""
-    entry = get_object_or_404(PasswordEntry, pk=pk)
+    entry = get_object_or_404(PasswordEntry, pk=pk, user=request.user)
     entry.delete()
     messages.success(request, 'Пароль успешно удалён!')
     return redirect('passwords:list')
@@ -245,6 +254,7 @@ def clear_session(request: HttpRequest) -> HttpResponse:
     return redirect('passwords:list')
 
 
+@login_required
 @require_http_methods(["GET", "POST"])
 def change_master_password(request: HttpRequest) -> HttpResponse:
     """
@@ -253,8 +263,8 @@ def change_master_password(request: HttpRequest) -> HttpResponse:
     Требует ввода старого мастер-пароля для подтверждения.
     Перешифровывает все пароли новым мастер-паролем.
     """
-    # Проверяем, есть ли пароли в базе
-    has_passwords = PasswordEntry.objects.exists()
+    # Проверяем, есть ли пароли у текущего пользователя
+    has_passwords = PasswordEntry.objects.filter(user=request.user).exists()
     if not has_passwords:
         messages.error(
             request,
@@ -271,7 +281,7 @@ def change_master_password(request: HttpRequest) -> HttpResponse:
             new_master_password = form.cleaned_data['new_master_password']
             
             # Проверяем старый мастер-пароль - пытаемся расшифровать хотя бы один пароль
-            entries = PasswordEntry.objects.all()
+            entries = PasswordEntry.objects.filter(user=request.user)
             test_entry = entries.first()
             
             if not test_entry:

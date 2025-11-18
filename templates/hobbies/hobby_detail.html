@@ -5,11 +5,17 @@
 
 {% block content %}
 <div class="hobby-detail-header">
-    <div class="hobby-header-content">
-        {% if hobby.image %}
-        <img src="{{ hobby.image.url }}" alt="{{ hobby.title }}" class="project-avatar">
-        {% endif %}
-        <h1>{{ hobby.title }}</h1>
+    <div class="hobby-header-content" style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            {% if hobby.image %}
+            <img src="{{ hobby.image.url }}" alt="{{ hobby.title }}" class="project-avatar">
+            {% endif %}
+            <h1 style="margin: 0;">{{ hobby.title }}</h1>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+            <a href="{% url 'hobbies:entry_create' hobby.slug %}" class="btn btn-primary">+ Добавить пост</a>
+            <a href="{% url 'hobbies:update' hobby.slug %}" class="btn" style="background-color: var(--secondary-color); color: white;">Редактировать</a>
+        </div>
     </div>
     {% if hobby.description %}
     <p class="hobby-description-full">{{ hobby.description }}</p>
@@ -41,10 +47,13 @@
             <div class="entry-content collapsed">
                 {% render_content_with_images entry.content entry.images.all %}
             </div>
-            <div class="expand-btn-container">
+            <div class="expand-btn-container" style="display: flex; gap: 0.5rem; align-items: center;">
                 <button type="button" class="btn-expand-entry toggle-btn" style="display: none;">
                     Развернуть
                 </button>
+                <a href="{% url 'hobbies:entry_update' hobby.slug entry.pk %}" class="btn-expand-entry toggle-btn">
+                    Редактировать
+                </a>
             </div>
         </div>
     </article>
@@ -52,7 +61,7 @@
 </div>
 {% else %}
 <div class="empty-state">
-    <p>Пока нет постов для этого проекта. <a href="{% url 'admin:index' %}">Добавьте первый пост в админ-панели</a>.</p>
+    <p>Пока нет постов для этого проекта. <a href="{% url 'hobbies:entry_create' hobby.slug %}">Создайте первый пост</a>.</p>
 </div>
 {% endif %}
 {% endblock %}

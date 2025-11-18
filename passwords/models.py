@@ -1,6 +1,7 @@
 """Модели для хранения зашифрованных паролей."""
 from typing import Optional
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.validators import EmailValidator
 from django.utils import timezone
 
@@ -13,6 +14,15 @@ class PasswordEntry(models.Model):
     только с помощью мастер-пароля.
     """
     
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='password_entries',
+        verbose_name='Пользователь',
+        db_index=True,
+        null=True,
+        blank=True
+    )
     service = models.CharField(
         max_length=200,
         verbose_name='Сервис',

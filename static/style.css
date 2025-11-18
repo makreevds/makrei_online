@@ -912,7 +912,7 @@ footer {
 }
 
 .btn-expand-entry.toggle-btn {
-    background: var(--primary-color);
+    background: var(--secondary-color);
     color: #fff;
     border: none;
     border-radius: 2rem;
@@ -929,8 +929,8 @@ footer {
 
 .btn-expand-entry.toggle-btn:hover,
 .btn-expand-entry.toggle-btn:focus {
-    background: var(--primary-hover);
-    color: var(--text-on-primary);
+    background: #475569;
+    color: #fff;
     box-shadow: var(--shadow-primary-hover);
     text-decoration: none;
 }
