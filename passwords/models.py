@@ -2,7 +2,6 @@
 from typing import Optional
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import EmailValidator
 from django.utils import timezone
 
 
@@ -36,14 +35,6 @@ class PasswordEntry(models.Model):
     password_encrypted = models.TextField(
         verbose_name='Пароль (зашифрован)',
         help_text='Пароль в зашифрованном виде'
-    )
-    email = models.EmailField(
-        max_length=200,
-        blank=True,
-        null=True,
-        verbose_name='Email',
-        help_text='Email адрес (необязательно)',
-        validators=[EmailValidator()]
     )
     created_at = models.DateTimeField(
         auto_now_add=True,

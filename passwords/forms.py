@@ -128,7 +128,7 @@ class PasswordEntryForm(forms.ModelForm):
     
     class Meta:
         model = PasswordEntry
-        fields = ['service', 'login', 'email']
+        fields = ['service', 'login']
         widgets = {
             'service': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -138,15 +138,10 @@ class PasswordEntryForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Логин или email'
             }),
-            'email': forms.EmailInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Email (необязательно)'
-            }),
         }
         labels = {
             'service': 'Сервис',
             'login': 'Логин',
-            'email': 'Email',
         }
     
     def save(self, commit: bool = True, master_password: Optional[str] = None, user=None) -> PasswordEntry:

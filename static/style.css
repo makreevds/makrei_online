@@ -103,6 +103,7 @@ header {
 .nav-links {
     display: flex;
     gap: 1.5rem;
+    align-items: center;
 }
 
 .nav-links a {
@@ -152,6 +153,12 @@ h3 {
     transition: background-color 0.2s;
     border: none;
     cursor: pointer;
+    box-sizing: border-box;
+    line-height: 1.5;
+    font-size: 1rem;
+    font-family: inherit;
+    vertical-align: middle;
+    min-height: 2.75rem;
 }
 
 .btn:hover {
@@ -160,6 +167,15 @@ h3 {
 
 .btn-primary {
     background-color: var(--primary-color);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: var(--text-on-primary);
+}
+
+.btn-secondary:hover {
+    background-color: #475569;
 }
 
 /* Hero секция */
@@ -284,6 +300,12 @@ h3 {
 
 .hobby-header-content {
     display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.hobby-title-container {
+    display: flex;
     align-items: center;
     gap: 1rem;
 }
@@ -297,8 +319,9 @@ h3 {
     box-shadow: 0 0 0 2px var(--border-color);
     background: var(--border-color);
 }
+
 .hobby-header-content h1 {
-    margin-bottom: 0;
+    margin: 0;
     line-height: 1;
     font-size: 2.5rem;
 }
@@ -306,9 +329,21 @@ h3 {
 .hobby-description-full {
     font-size: 1rem;
     color: var(--text-light);
-    margin-bottom: 0rem;
+    margin-bottom: 0.75rem;
     margin-top: 0.75rem;
     line-height: 1.2;
+}
+
+.hobby-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-edit-project {
+    background-color: var(--secondary-color);
+    color: white;
 }
 
 .hobby-meta-large {
@@ -507,7 +542,7 @@ h3 {
     border: none;
     color: var(--primary-color);
     cursor: pointer;
-    margin: 0 3rem 1rem 3rem;
+    margin: 0;
     font-size: 1rem;
     font-weight: 500;
     padding: 0;
@@ -733,6 +768,47 @@ footer {
     .entry-full {
         padding: 1.5rem;
     }
+
+    .hobby-actions {
+        flex-direction: row;
+        gap: 0.5rem;
+    }
+
+    .hobby-actions .btn {
+        flex: 1;
+        min-width: 0;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        padding: 0.6rem 1rem;
+    }
+
+    .hobby-header-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .hobby-detail-header {
+        padding: 0 1rem;
+    }
+
+    .expand-btn-container {
+        justify-content: flex-start;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 0;
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    .btn-expand-entry.toggle-btn {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+        min-width: 0;
+        max-width: 100%;
+        min-height: 2.25rem;
+        line-height: 1.5;
+    }
 }
 
 /* Стили для страницы паролей */
@@ -851,15 +927,23 @@ footer {
 }
 
 .btn-toggle-password {
-    margin-left: 0.5rem;
-    padding: 0.25rem 0.75rem;
-    font-size: 0.875rem;
     background-color: var(--secondary-color);
     color: var(--text-on-primary);
     border: none;
-    border-radius: 4px;
+    border-radius: 0.5rem;
     cursor: pointer;
     transition: background-color 0.2s;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    box-sizing: border-box;
+    font-family: inherit;
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+    min-width: 7rem;
+    min-height: 2rem;
 }
 
 .btn-toggle-password:hover {
@@ -867,8 +951,17 @@ footer {
 }
 
 .btn-sm {
+    text-align: center;
+    display: inline-block;
     padding: 0.375rem 0.75rem;
     font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    box-sizing: border-box;
+    font-family: inherit;
+    vertical-align: middle;
+    min-width: 7rem;
+    min-height: 2rem;
 }
 
 .btn-danger {
@@ -903,12 +996,27 @@ footer {
     .form-actions .btn {
         width: 100%;
     }
+
+    .btn-toggle-password,
+    .btn-sm {
+        font-size: 0.875rem;
+        padding: 0.375rem 0.75rem;
+        min-width: 7rem;
+        min-height: 2rem;
+        white-space: nowrap;
+        text-align: center;
+    }
 }
 
 .expand-btn-container {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
     margin-top: 0.5rem;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 100%;
 }
 
 .btn-expand-entry.toggle-btn {
@@ -925,6 +1033,11 @@ footer {
     text-decoration: none;
     outline: none;
     display: inline-block;
+    box-sizing: border-box;
+    line-height: 1.5;
+    min-height: 2.5rem;
+    vertical-align: middle;
+    font-family: inherit;
 }
 
 .btn-expand-entry.toggle-btn:hover,
