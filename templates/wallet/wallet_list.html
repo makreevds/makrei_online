@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Кошельки - makrei.ru{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1 style="margin: 0;">Мои кошельки</h1>
+        <a href="{% url 'wallet:create' %}" class="btn btn-primary">+ Создать кошелёк</a>
+    </div>
+</div>
+
+{% if wallets %}
+<div class="wallets-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+    {% for wallet in wallets %}
+    <div class="wallet-card" style="background: var(--card-bg, #fff); border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2 style="margin: 0; font-size: 1.5rem;">{{ wallet.cryptocurrency.name }}</h2>
+            <span style="background: #4CAF50; color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.875rem;">
+                {{ wallet.cryptocurrency.symbol }}
+            </span>
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <p style="color: var(--text-light, #666); font-size: 0.875rem; margin: 0.25rem 0;">Баланс:</p>
+            <p style="font-size: 1.75rem; font-weight: bold; margin: 0; color: var(--primary-color, #007bff);">
+                {{ wallet.display_balance }}
+            </p>
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <p style="color: var(--text-light, #666); font-size: 0.75rem; margin: 0.25rem 0; word-break: break-all;">
+                {{ wallet.address }}
+            </p>
+        </div>
+        
+        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+            <a href="{% url 'wallet:detail' wallet.id %}" class="btn btn-sm" style="flex: 1;">Подробнее</a>
+            <a href="{% url 'wallet:deposit' wallet.id %}" class="btn btn-sm btn-primary" style="flex: 1;">Пополнить</a>
+            <a href="{% url 'wallet:withdraw' wallet.id %}" class="btn btn-sm" style="flex: 1;">Вывести</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div style="margin-top: 2rem;">
+    <a href="{% url 'wallet:transaction_list' %}" class="btn">Все транзакции</a>
+</div>
+
+{% else %}
+<div class="empty-state">
+    <p>У вас пока нет кошельков. <a href="{% url 'wallet:create' %}">Создайте первый кошелёк</a>.</p>
+</div>
+{% endif %}
+{% endblock %}
+

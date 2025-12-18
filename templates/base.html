@@ -18,6 +18,7 @@
                     {% if user.is_authenticated %}
                     <a href="{% url 'hobbies:list' %}">Проекты</a>
                     <a href="{% url 'passwords:list' %}">Пароли</a>
+                    <a href="{% url 'wallet:list' %}">Кошельки</a>
                     {% if user.is_superuser %}
                     <a href="{% url 'admin:index' %}">Админ-панель</a>
                     {% endif %}

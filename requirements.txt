@@ -2,3 +2,8 @@ Django>=5.2.8
 gunicorn
 Pillow>=12.0.0
 cryptography>=42.0.0
+
+# Опциональные библиотеки для работы с блокчейном (для продакшена):
+# bitcoinlib>=0.12.0  # Для работы с Bitcoin
+# web3>=6.0.0  # Для работы с Ethereum
+# eth-account>=0.8.0  # Для работы с Ethereum аккаунтами

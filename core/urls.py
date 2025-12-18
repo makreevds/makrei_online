@@ -16,6 +16,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('hobbies/', include('hobbies.urls')),
     path('passwords/', include('passwords.urls')),
+    path('wallet/', include('wallet.urls')),
 ]
 
 # Обработка медиа-файлов для разработки

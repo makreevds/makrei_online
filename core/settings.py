@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'hobbies.apps.HobbiesConfig',
     'passwords.apps.PasswordsConfig',
     'accounts.apps.AccountsConfig',
+    'wallet.apps.WalletConfig',
 ]
 
 
@@ -147,6 +148,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# Настройки криптовалютных кошельков
+WALLET_TEST_MODE = True  # В продакшене установить False
+# WALLET_ENCRYPTION_KEY = 'your-encryption-key-here'  # В продакшене использовать переменную окружения
 
 
 # Настройки логирования
