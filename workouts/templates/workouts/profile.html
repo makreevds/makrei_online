@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль — makrei.online</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'workouts/style.css' %}">
+    <link rel="stylesheet" href="{% static 'workouts/profile.css' %}">
+</head>
+<body>
+    {% include 'workouts/header.html' %}
+    
+    <div class="container profile-container">
+        <h1 class="profile-title">Мой профиль</h1>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <!-- Модальное окно для подтверждения обновления веса -->
+        {% if show_update_modal and existing_weight_entry %}
+        <div class="modal-overlay" id="update-weight-modal">
+            <div class="modal-content">
+                <h3 class="modal-title">Запись уже существует</h3>
+                <p class="modal-message">
+                    На дату <strong>{{ existing_weight_entry.date|date:"d.m.Y" }}</strong> уже есть запись веса: 
+                    <strong>{{ existing_weight_entry.weight_kg }} кг</strong>.
+                </p>
+                <p class="modal-question">Хотите обновить данные?</p>
+                <div class="modal-buttons">
+                    <form method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="add_weight" value="1">
+                        <input type="hidden" name="confirm_update" value="1">
+                        {% if request.session.pending_weight_data %}
+                            <input type="hidden" name="date" value="{{ request.session.pending_weight_data.date }}">
+                            <input type="hidden" name="weight_kg" value="{{ request.session.pending_weight_data.weight_kg }}">
+                            <input type="hidden" name="notes" value="{{ request.session.pending_weight_data.notes }}">
+                        {% else %}
+                            <input type="hidden" name="date" value="{{ existing_weight_entry.date|date:'Y-m-d' }}">
+                        {% endif %}
+                        <button type="submit" class="modal-button modal-button-yes">Да, обновить</button>
+                    </form>
+                    <a href="{% url 'workouts:profile' %}?cancel=1" class="modal-button modal-button-no">Нет, отмена</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="profile-forms">
+            <!-- Форма добавления веса -->
+            <div class="form-card">
+                <h2 class="form-card-title">Добавить вес</h2>
+                <form method="post" class="profile-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="add_weight" value="1">
+                    {{ weight_form.date.label_tag }}
+                    {{ weight_form.date }}
+                    {% if weight_form.date.errors %}
+                        <div class="form-error">{{ weight_form.date.errors.0 }}</div>
+                    {% endif %}
+                    
+                    {{ weight_form.weight_kg.label_tag }}
+                    {{ weight_form.weight_kg }}
+                    {% if weight_form.weight_kg.errors %}
+                        <div class="form-error">{{ weight_form.weight_kg.errors.0 }}</div>
+                    {% endif %}
+                    
+                    {{ weight_form.notes.label_tag }}
+                    {{ weight_form.notes }}
+                    {% if weight_form.notes.errors %}
+                        <div class="form-error">{{ weight_form.notes.errors.0 }}</div>
+                    {% endif %}
+                    
+                    <button type="submit" class="form-submit-button">Добавить вес</button>
+                </form>
+            </div>
+            
+            <!-- Форма добавления тренировки -->
+            <div class="form-card">
+                <h2 class="form-card-title">Добавить тренировку</h2>
+                <form method="post" class="profile-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="add_workout" value="1">
+                    {{ workout_form.date.label_tag }}
+                    {{ workout_form.date }}
+                    {% if workout_form.date.errors %}
+                        <div class="form-error">{{ workout_form.date.errors.0 }}</div>
+                    {% endif %}
+                    
+                    {{ workout_form.workout_type.label_tag }}
+                    {{ workout_form.workout_type }}
+                    {% if workout_form.workout_type.errors %}
+                        <div class="form-error">{{ workout_form.workout_type.errors.0 }}</div>
+                    {% endif %}
+                    
+                    {{ workout_form.duration_minutes.label_tag }}
+                    {{ workout_form.duration_minutes }}
+                    {% if workout_form.duration_minutes.errors %}
+                        <div class="form-error">{{ workout_form.duration_minutes.errors.0 }}</div>
+                    {% endif %}
+                    
+                    {{ workout_form.notes.label_tag }}
+                    {{ workout_form.notes }}
+                    {% if workout_form.notes.errors %}
+                        <div class="form-error">{{ workout_form.notes.errors.0 }}</div>
+                    {% endif %}
+                    
+                    <button type="submit" class="form-submit-button">Добавить тренировку</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{% static 'workouts/profile.js' %}"></script>
+</body>
+</html>
+

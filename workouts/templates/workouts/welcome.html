@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>makrei.online — Спорт-трекер</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'workouts/style.css' %}">
+    <link rel="stylesheet" href="{% static 'workouts/welcome.css' %}">
+</head>
+<body data-show-register="{% if register_errors %}true{% else %}false{% endif %}">
+    <div class="welcome-container">
+        <div class="welcome-left">
+            <div class="welcome-title">makrei.online</div>
+            <div class="welcome-subtitle">Ваш персональный спорт-трекер</div>
+            <div class="welcome-description">
+                Отслеживайте свой прогресс в тренировках и контролируйте вес с помощью удобного инструмента для анализа спортивных данных.
+            </div>
+            <ul class="welcome-features">
+                <li>Отслеживание изменения веса с интерактивными графиками</li>
+                <li>Ведение учета тренировок с детальной статистикой</li>
+                <li>Анализ прогресса и достижений</li>
+                <li>Персональная статистика и отчеты</li>
+            </ul>
+        </div>
+        <div class="welcome-right">
+            <div class="auth-form-container">
+                <div class="auth-tabs">
+                    <div class="auth-tab active" onclick="showForm('login')">Вход</div>
+                    <div class="auth-tab" onclick="showForm('register')">Регистрация</div>
+                </div>
+                
+                <!-- Форма входа -->
+                <form id="login-form" class="auth-form active" method="post" action="{% url 'workouts:login' %}">
+                    {% csrf_token %}
+                    {% if form.errors %}
+                    <div class="error-message">
+                        Неверное имя пользователя или пароль. Попробуйте снова.
+                    </div>
+                    {% endif %}
+                    <div class="form-group">
+                        <label for="login-username">Имя пользователя</label>
+                        <input type="text" name="username" id="login-username" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Пароль</label>
+                        <input type="password" name="password" id="login-password" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Войти</button>
+                    <input type="hidden" name="next" value="{% url 'workouts:home' %}">
+                </form>
+                
+                <!-- Форма регистрации -->
+                <form id="register-form" class="auth-form" method="post" action="{% url 'workouts:register' %}">
+                    {% csrf_token %}
+                    {% if register_form.errors or register_errors %}
+                    <div class="error-message">
+                        {% if register_form.non_field_errors %}
+                            {{ register_form.non_field_errors }}
+                        {% else %}
+                            Пожалуйста, исправьте ошибки в форме.
+                        {% endif %}
+                        {% if register_form.errors.password2 %}
+                            <ul class="error-list">
+                                {% for error in register_form.errors.password2 %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    <div class="form-group">
+                        <label for="register-username">Имя пользователя</label>
+                        <input type="text" name="username" id="register-username" required 
+                               value="{% if register_form.username.value %}{{ register_form.username.value }}{% endif %}"
+                               class="{% if register_form.username.errors %}has-error{% endif %}">
+                        {% if register_form.username.errors %}
+                            <div class="error-text">
+                                {{ register_form.username.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Пароль</label>
+                        <input type="password" name="password1" id="register-password" required
+                               class="{% if register_form.password1.errors %}has-error{% endif %}">
+                        {% if register_form.password1.errors %}
+                            <div class="error-text">
+                                {{ register_form.password1.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password-confirm">Подтвердите пароль</label>
+                        <input type="password" name="password2" id="register-password-confirm" required
+                               class="{% if register_form.password2.errors %}has-error{% endif %}">
+                        {% if register_form.password2.errors %}
+                            <div class="error-text">
+                                {{ register_form.password2.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn-submit">Зарегистрироваться</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{% static 'workouts/welcome.js' %}"></script>
+</body>
+</html>
+

@@ -1,0 +1,199 @@
+/* Welcome page styles using CSS variables from style.css */
+
+.welcome-container {
+    display: flex;
+    min-height: 100vh;
+    background: var(--main-bg);
+}
+
+.welcome-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px;
+    max-width: 70%;
+}
+
+.welcome-right {
+    width: 30%;
+    min-width: 400px;
+    background: var(--block-bg);
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: -4px 0 12px rgba(0,0,0,0.05);
+}
+
+.welcome-title {
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 24px;
+    line-height: 1.2;
+}
+
+.welcome-subtitle {
+    font-size: 20px;
+    color: var(--accent-1);
+    margin-bottom: 32px;
+    font-weight: 600;
+}
+
+.welcome-description {
+    font-size: 18px;
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 32px;
+}
+
+.welcome-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.welcome-features li {
+    font-size: 16px;
+    color: #4a5568;
+    margin-bottom: 16px;
+    padding-left: 32px;
+    position: relative;
+}
+
+.welcome-features li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--accent-2);
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.auth-form-container {
+    width: 100%;
+}
+
+.auth-tabs {
+    display: flex;
+    margin-bottom: 32px;
+    border-bottom: 2px solid var(--grey-border);
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 16px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 600;
+    color: #9ca3af;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+}
+
+.auth-tab.active {
+    color: var(--accent-1);
+    border-bottom-color: var(--accent-1);
+}
+
+.auth-tab:hover {
+    color: var(--accent-1);
+}
+
+.auth-form {
+    display: none;
+}
+
+.auth-form.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--grey-border);
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent-1);
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 14px;
+    background: var(--accent-1);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s;
+}
+
+.btn-submit:hover {
+    background: var(--accent-1);
+    opacity: 0.9;
+}
+
+.error-message {
+    color: var(--accent-4);
+    margin-bottom: 20px;
+    padding: 12px;
+    background: #fff5f5;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-4);
+    font-size: 14px;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+.login-link a {
+    color: var(--accent-1);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+.form-group input.has-error {
+    border-color: var(--accent-4);
+}
+
+.error-text {
+    color: var(--accent-4);
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.error-list {
+    margin: 8px 0 0 0;
+    padding-left: 20px;
+}
+
