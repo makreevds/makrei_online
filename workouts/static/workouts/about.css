@@ -1,0 +1,97 @@
+/* About page styles using CSS variables */
+
+.about-container {
+    padding: 60px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.about-title {
+    font-size: 42px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.about-content {
+    line-height: 1.8;
+}
+
+.about-intro {
+    font-size: 20px;
+    color: var(--text-primary);
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.about-features {
+    margin-bottom: 60px;
+}
+
+.about-section-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 30px;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.feature-item {
+    background: var(--block-bg);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+}
+
+.feature-item strong {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--accent-1);
+    margin-bottom: 12px;
+}
+
+.feature-item p {
+    font-size: 16px;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.about-cta {
+    background: var(--block-bg);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+}
+
+.about-cta-text {
+    font-size: 18px;
+    color: var(--text-primary);
+    margin-bottom: 30px;
+}
+
+.about-cta-button {
+    display: inline-block;
+    padding: 14px 32px;
+    background: var(--accent-1);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: opacity 0.3s;
+}
+
+.about-cta-button:hover {
+    opacity: 0.9;
+}
+

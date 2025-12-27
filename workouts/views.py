@@ -42,7 +42,7 @@ class RegisterView(View):
         if form.is_valid():
             user = form.save()
             login(request, user)  # Автоматически входим после регистрации
-            return redirect('workouts:home')
+            return redirect('workouts:progress')
         # Если форма невалидна, показываем welcome страницу с формой регистрации и ошибками
         from django.contrib.auth.views import LoginView
         login_view = LoginView()
@@ -57,7 +57,15 @@ class RegisterView(View):
         return redirect('workouts:welcome')
 
 
-class HomeView(LoginRequiredMixin, View):
+class AboutView(View):
+    """
+    Страница "О сайте" - информация о проекте.
+    """
+    def get(self, request: HttpRequest) -> HttpResponse:
+        return render(request, 'workouts/about.html')
+
+
+class ProgressView(LoginRequiredMixin, View):
     """
     Главная страница трекинга занятий спортом с инфографикой.
     Требует авторизации пользователя.
@@ -142,7 +150,7 @@ class HomeView(LoginRequiredMixin, View):
             'avg_duration': avg_duration,
             'recent_workouts': recent_workouts,
         }
-        return render(request, 'workouts/home.html', context)
+        return render(request, 'workouts/progress.html', context)
 
 
 class ProfileView(LoginRequiredMixin, View):
@@ -222,7 +230,7 @@ class ProfileView(LoginRequiredMixin, View):
                     del request.session['pending_weight_data']
                 
                 messages.success(request, 'Вес успешно сохранен!')
-                return redirect('workouts:profile')
+                return redirect('workouts:add-data')
             else:
                 workout_form = WorkoutForm()
                 context = {
@@ -238,7 +246,7 @@ class ProfileView(LoginRequiredMixin, View):
                 workout.user = request.user
                 workout.save()
                 messages.success(request, 'Тренировка успешно добавлена!')
-                return redirect('workouts:profile')
+                return redirect('workouts:add-data')
             else:
                 weight_form = WeightEntryForm()
                 context = {
@@ -247,4 +255,4 @@ class ProfileView(LoginRequiredMixin, View):
                 }
                 return render(request, 'workouts/profile.html', context)
         
-        return redirect('workouts:profile')
+        return redirect('workouts:add-data')

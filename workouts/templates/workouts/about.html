@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>О сайте — makrei.online</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'workouts/style.css' %}">
+    <link rel="stylesheet" href="{% static 'workouts/about.css' %}">
+</head>
+<body>
+    {% if user.is_authenticated %}
+        {% include 'workouts/header.html' %}
+    {% else %}
+        <div class="header">
+            <a href="{% url 'workouts:home' %}" class="header-logo-link">makrei.online</a>
+        </div>
+    {% endif %}
+    
+    <div class="container about-container">
+        <h1 class="about-title">О makrei.online</h1>
+        <div class="about-content">
+            <p class="about-intro">
+                makrei.online — это персональный спорт-трекер, созданный для того, чтобы помочь вам отслеживать свой прогресс в тренировках и контролировать изменения веса.
+            </p>
+            
+            <div class="about-features">
+                <h2 class="about-section-title">Основные возможности</h2>
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <strong>Отслеживание веса</strong>
+                        <p>Ведите учет изменений веса с интерактивными графиками, которые наглядно показывают ваш прогресс.</p>
+                    </li>
+                    <li class="feature-item">
+                        <strong>Учет тренировок</strong>
+                        <p>Записывайте все свои тренировки, указывая тип, дату и продолжительность. Отслеживайте общую статистику и динамику.</p>
+                    </li>
+                    <li class="feature-item">
+                        <strong>Статистика и аналитика</strong>
+                        <p>Получайте детальную статистику по вашим тренировкам, включая общее количество, среднюю продолжительность и изменения по неделям.</p>
+                    </li>
+                    <li class="feature-item">
+                        <strong>Персональный аккаунт</strong>
+                        <p>Каждый пользователь имеет свой личный кабинет с полным контролем над своими данными.</p>
+                    </li>
+                </ul>
+            </div>
+            
+            {% if not user.is_authenticated %}
+            <div class="about-cta">
+                <h2 class="about-section-title">Начните прямо сейчас</h2>
+                <p class="about-cta-text">
+                    Присоединяйтесь к makrei.online и начните отслеживать свой прогресс уже сегодня!
+                </p>
+                <a href="{% url 'workouts:welcome' %}" class="about-cta-button">Войти или зарегистрироваться</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
+
