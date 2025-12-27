@@ -1,0 +1,257 @@
+/* Progress page styles using CSS variables */
+
+.recent-workouts-section {
+    margin-top: 32px;
+}
+
+.recent-card {
+    background: var(--block-bg);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+}
+
+.recent-card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+}
+
+.recent-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.recent-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--grey-border);
+}
+
+.recent-item:last-child {
+    border-bottom: none;
+}
+
+.recent-date {
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.recent-value {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.recent-duration {
+    color: #6b7280;
+    font-size: 12px;
+    margin-left: 12px;
+}
+
+.recent-empty {
+    color: #6b7280;
+    font-size: 14px;
+    text-align: center;
+    padding: 20px 0;
+}
+/* Common container styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 32px;
+}
+
+.indicator-row {
+    display: flex;
+    gap: 1em;
+    justify-content: space-between;
+    margin-bottom: 1em;
+    flex-wrap: wrap;
+}
+
+.indicator-card {
+    background: var(--block-bg);
+    border-radius: 14px;
+    box-shadow: 0px 0px 3px 0px rgb(8 8 8 / 20%);
+    flex: 1 1 210px;
+    min-width: 200px;
+    min-height: 148px;
+    max-width: 400px;
+    padding: 20px 22px 21px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+    margin-right: 0;
+    transition: box-shadow 0.3s ease;
+}
+
+.indicator-card:hover {
+    box-shadow: 0px 3px 3px 0px rgb(8 8 8 / 20%);
+}
+
+.indicator-icon {
+    position: absolute;
+    top: 16px;
+    left: 15px;
+    width: 32px;
+    height: 32px;
+}
+
+.indicator-trend {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: #e6fcef;
+    color: var(--accent-2);
+    font-size: 0.95em;
+    font-weight: 600;
+    border-radius: 7px;
+    padding: 2px 10px 3px 7px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.indicator-trend.positive {
+    background: #e6fcef;
+    color: var(--accent-2);
+}
+
+.indicator-trend.negative {
+    background: #ffeae3;
+    color: var(--accent-4);
+}
+
+.indicator-label {
+    margin-top: 52px;
+    margin-bottom: 0.7em;
+    color: var(--text-primary);
+    font-size: 1.05rem;
+    font-weight: 400;
+}
+
+.indicator-value {
+    font-size: 2.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.01em;
+    margin-top: 0.16em;
+}
+
+.graph-block {
+    background: var(--block-bg);
+    border-radius: 12px;
+    padding: 20px 10px 24px 10px;
+    box-shadow: 0px 0px 3px 0px rgb(8 8 8 / 20%);
+    transition: box-shadow 0.3s ease;
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    min-height: 250px;
+    max-height: 400px;
+}
+
+.graph-block:nth-child(2) {
+    flex: 1;
+}
+
+.graph-block:hover {
+    box-shadow: 0px 3px 3px 0px rgb(8 8 8 / 20%);
+}
+
+.graph-block canvas {
+    flex: 1;
+    min-height: 0;
+}
+
+.graph-title {
+    font-size: 1.08rem;
+    color: var(--text-primary);
+    margin: 0 0 14px 8px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+.grid-graphs {
+    display: flex;
+    gap: 1em;
+    justify-content: space-between;
+    margin-bottom: 1em;
+    flex-wrap: wrap;
+}
+
+.footer {
+    margin-top: 40px;
+    padding: 16px 0 10px 0;
+    text-align: center;
+    font-size: 0.96rem;
+    color: #A0A0A0;
+    border-top: 1px solid var(--grey-border);
+}
+
+.footer a {
+    color: var(--accent-1);
+    text-decoration: none;
+}
+
+/* Media queries */
+@media (max-width: 900px) {
+    .container {
+        padding: 0 3%;
+        margin-top: 0;
+    }
+    
+    .container > * {
+        margin-bottom: 3%;
+    }
+    
+    .container > *:last-child {
+        margin-bottom: 0;
+    }
+    
+    .indicator-row {
+        flex-direction: column;
+        gap: 3%;
+        margin-bottom: 3%;
+    }
+    
+    .indicator-card {
+        max-width: unset;
+        width: 100%;
+        height: 100%;
+        flex: auto;
+    }
+    
+    .grid-graphs {
+        flex-direction: column;
+        gap: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .indicator-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        height: 50vh;
+        align-items: center;
+        justify-items: center;
+    }
+    
+    .indicator-card {
+        min-width: 0;
+        min-height: 0;
+        max-width: none;
+        padding: 16px;
+        width: 80%;
+        height: 80%;
+        aspect-ratio: 1;
+        justify-self: center;
+    }
+}

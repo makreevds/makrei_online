@@ -1,6 +1,7 @@
 /**
  * Гистограмма по типам тренировок
  * Использует Chart.js для отображения столбчатой диаграммы
+ * Данные загружаются из базы данных через JSON
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -11,12 +12,36 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
+    // Получаем данные о типах тренировок из шаблона
+    const workoutTypesDataJson = document.getElementById('workout-types-data-json');
+    let workoutTypesData = {
+        labels: [],
+        data: []
+    };
+
+    if (workoutTypesDataJson) {
+        try {
+            workoutTypesData = JSON.parse(workoutTypesDataJson.textContent);
+        } catch (e) {
+            console.error('Ошибка парсинга данных о типах тренировок:', e);
+            workoutTypesData = { labels: [], data: [] };
+        }
+    }
+
+    // Если нет данных, показываем пустой график
+    if (!workoutTypesData.labels || workoutTypesData.labels.length === 0) {
+        workoutTypesData = {
+            labels: ['Нет данных'],
+            data: [0]
+        };
+    }
+
     new Chart(ctx.getContext('2d'), {
         type: 'bar',
         data: {
-            labels: ['Бег', 'Силовая', 'Плавание', 'Велосипед'],
+            labels: workoutTypesData.labels,
             datasets: [{
-                data: [17, 12, 8, 11],
+                data: workoutTypesData.data,
                 backgroundColor: (context) => {
                     const ctx = context.chart.ctx;
                     const gradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
@@ -31,6 +56,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }]
         },
         options: {
+            maintainAspectRatio: false,
+            responsive: true,
             plugins: {
                 legend: {
                     display: false
@@ -45,6 +72,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     grid: {
                         display: false
+                    },
+                    ticks: {
+                        color: 'var(--text-primary)',
+                        maxRotation: 45,
+                        minRotation: 0
                     }
                 },
                 y: {
@@ -56,6 +88,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     grid: {
                         color: '#ECECEC'
+                    },
+                    ticks: {
+                        color: 'var(--text-primary)',
+                        stepSize: 1
                     }
                 }
             }

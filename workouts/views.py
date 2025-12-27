@@ -137,17 +137,86 @@ class ProgressView(LoginRequiredMixin, View):
         else:
             avg_duration = None
         
+        # Вычисляем изменение средней продолжительности тренировок за текущую неделю относительно предыдущей
+        # Тренировки текущей недели с указанной продолжительностью
+        current_week_workouts_with_duration = Workout.objects.filter(
+            user=request.user,
+            date__gte=current_week_start,
+            date__lte=current_week_end,
+            duration_minutes__isnull=False
+        )
+        
+        # Тренировки предыдущей недели с указанной продолжительностью
+        previous_week_workouts_with_duration = Workout.objects.filter(
+            user=request.user,
+            date__gte=previous_week_start,
+            date__lte=previous_week_end,
+            duration_minutes__isnull=False
+        )
+        
+        # Средняя продолжительность текущей недели
+        if current_week_workouts_with_duration.exists():
+            current_week_avg_duration = current_week_workouts_with_duration.aggregate(
+                Avg('duration_minutes')
+            )['duration_minutes__avg']
+        else:
+            current_week_avg_duration = None
+        
+        # Средняя продолжительность предыдущей недели
+        if previous_week_workouts_with_duration.exists():
+            previous_week_avg_duration = previous_week_workouts_with_duration.aggregate(
+                Avg('duration_minutes')
+            )['duration_minutes__avg']
+        else:
+            previous_week_avg_duration = None
+        
+        # Вычисляем процентное изменение средней продолжительности
+        if previous_week_avg_duration and previous_week_avg_duration > 0:
+            duration_change_percent = round(
+                ((current_week_avg_duration - previous_week_avg_duration) / previous_week_avg_duration) * 100
+            ) if current_week_avg_duration else 0
+        elif current_week_avg_duration and current_week_avg_duration > 0:
+            # Если в предыдущей неделе не было тренировок с продолжительностью, а в текущей есть - показываем +100%
+            duration_change_percent = 100
+        else:
+            # Если в обеих неделях нет тренировок с продолжительностью - показываем 0%
+            duration_change_percent = 0
+        
         # Получаем последние тренировки для отображения
         recent_workouts = Workout.objects.filter(user=request.user).order_by('-date')[:5]
+        
+        # Подсчитываем количество тренировок по типам для текущего пользователя
+        workout_types_data = Workout.objects.filter(
+            user=request.user
+        ).values('workout_type').annotate(
+            count=Count('workout_type')
+        ).order_by('workout_type')
+        
+        # Формируем данные для графика: маппинг типов тренировок на их отображаемые названия
+        workout_type_labels = dict(Workout.WORKOUT_TYPES)
+        workout_type_chart_data = {
+            'labels': [],
+            'data': []
+        }
+        
+        # Создаем словарь для быстрого доступа
+        type_counts = {item['workout_type']: item['count'] for item in workout_types_data}
+        
+        # Заполняем данные для всех типов тренировок (включая те, где count = 0)
+        for workout_type_code, workout_type_label in Workout.WORKOUT_TYPES:
+            workout_type_chart_data['labels'].append(workout_type_label)
+            workout_type_chart_data['data'].append(type_counts.get(workout_type_code, 0))
         
         # Передаем данные в контекст как JSON
         context = {
             'weight_data_json': json.dumps(weight_data, cls=DjangoJSONEncoder),
+            'workout_types_json': json.dumps(workout_type_chart_data, cls=DjangoJSONEncoder),
             'weight_data': weight_data,
             'user': request.user,
             'workouts_count': workouts_count,
             'workouts_change_percent': workouts_change_percent,
             'avg_duration': avg_duration,
+            'duration_change_percent': duration_change_percent,
             'recent_workouts': recent_workouts,
         }
         return render(request, 'workouts/progress.html', context)

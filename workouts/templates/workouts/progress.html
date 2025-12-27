@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'workouts/style.css' %}">
-    <link rel="stylesheet" href="{% static 'workouts/home.css' %}">
+    <link rel="stylesheet" href="{% static 'workouts/progress.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-gradient@^1.0.0/dist/chartjs-plugin-gradient.min.js"></script>
@@ -40,7 +40,16 @@
                 <div class="indicator-icon">
                     <!-- icon666.com - MILLIONS OF FREE VECTOR ICONS --><svg id="Layer_1" enable-background="new 0 0 512 512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50" height="50"><linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="74.981" x2="437.019" y1="74.981" y2="437.019"><stop offset="0" stop-color="#00dbde"></stop><stop offset="1" stop-color="#fc00ff"></stop></linearGradient><circle cx="256" cy="256" fill="url(#SVGID_1_)" r="256" style="fill: rgb(0, 181, 70);"></circle><g><g><g><g id="XMLID_1_" fill="#fffffe"><path d="m353.5 151.4 4.4 4.4-7.7 7.7c-1.4-1.5-2.9-3-4.4-4.4z" fill="#fffffe"></path><path d="m376.1 153.1-5.5 5.5-5.3-5.2-9.3-9.4-5.3-5.2 5.5-5.5z" fill="#fffffe"></path><path d="m280.5 121.8v3.6c-7.9-1.5-16.1-2.3-24.5-2.3s-16.6.8-24.5 2.3v-3.6c0-6.9 5.7-12.6 12.6-12.6h23.8c7 0 12.6 5.7 12.6 12.6z" fill="#fffffe"></path><path d="m347.7 171.1c-3-3.3-6.1-6.4-9.4-9.4-15.4-13.8-34.2-23.8-55-28.5-8.8-2-17.9-3-27.3-3s-18.5 1.1-27.3 3c-54.9 12.5-95.9 61.6-95.9 120.2 0 57.1 40.3 107.6 95.9 120.2.2 0 .3.1.5.1.1 0 .3.1.4.2.3.1.5.3.8.5l.2.2c.1.1.1.1.2.2.1.2.2.3.3.5s.2.3.2.5c0 .1.1.2.1.3v.2.3.4 22.6c0 1.8 1.4 3.2 3.2 3.2h42.6c1.8 0 3.2-1.4 3.2-3.2v-22.6c0-.1 0-.3 0-.4s0-.2 0-.3 0-.2 0-.2c0-.1 0-.2.1-.3.1-.2.1-.4.2-.5.1-.2.2-.3.3-.5.1-.1.1-.2.2-.2.1-.1.1-.1.2-.2.2-.2.5-.4.8-.5.1-.1.3-.1.4-.2.2-.1.3-.1.5-.1 55.6-12.6 95.9-63.1 95.9-120.2.2-31.6-11.7-60.5-31.3-82.3zm-17.7 155.4c-.1.2-.2.3-.4.5-.1.1-.3.3-.4.4-18.8 18.6-44.7 30.1-73.2 30.1s-54.3-11.5-73.2-30.1c-.2-.1-.3-.2-.4-.4-.1-.1-.3-.3-.4-.5-18.6-18.8-30.1-44.7-30.1-73.1s11.5-54.3 30.1-73.2c.1-.2.2-.3.4-.4l.4-.4c18.8-18.6 44.7-30.1 73.2-30.1s54.3 11.5 73.2 30.1c.2.1.3.2.4.4.1.1.3.3.4.4 18.6 18.8 30.1 44.7 30.1 73.2s-11.5 54.3-30.1 73.1z" fill="#fffffe"></path><path d="m337.8 253.4c0-1.9 1.6-3.5 3.5-3.5h11.7c-.9-24.1-10.6-46.1-26-62.6l-8.2 8.2c-.7.7-1.6 1-2.5 1s-1.8-.3-2.5-1c-1.4-1.4-1.4-3.6 0-4.9l8.2-8.2c-16.5-15.4-38.5-25.1-62.6-26v11.7c0 1.9-1.6 3.5-3.5 3.5s-3.5-1.6-3.5-3.5v-11.7c-24.1.9-46.1 10.6-62.6 26l8.2 8.2c1.4 1.4 1.4 3.6 0 4.9-.7.7-1.6 1-2.5 1s-1.8-.3-2.5-1l-8.2-8.2c-15.4 16.6-25.1 38.5-26 62.6h11.7c1.9 0 3.5 1.6 3.5 3.5s-1.6 3.5-3.5 3.5h-11.5c.9 24.1 10.6 46.1 26 62.6l8.2-8.2c1.4-1.4 3.6-1.4 4.9 0 1.4 1.4 1.4 3.6 0 4.9l-8.2 8.2c16.5 15.4 38.5 25.1 62.6 26v-11.7c0-1.9 1.6-3.5 3.5-3.5s3.5 1.6 3.5 3.5v11.7c24.1-.9 46.1-10.6 62.6-26l-8.2-8.2c-1.4-1.4-1.4-3.6 0-4.9 1.4-1.4 3.6-1.4 4.9 0l8.2 8.2c15.4-16.6 25.1-38.5 26-62.6h-11.7c-1.9 0-3.5-1.6-3.5-3.5zm-36.7 45.1c-.7.7-1.6 1-2.5 1s-1.8-.3-2.5-1l-33.2-33.2c-2 1.2-4.4 1.9-6.9 1.9-7.6 0-13.8-6.2-13.8-13.8 0-6.4 4.4-11.8 10.3-13.3v-35.8c0-1.9 1.6-3.5 3.5-3.5s3.5 1.6 3.5 3.5v35.7c5.9 1.5 10.3 6.9 10.3 13.3 0 2.5-.7 4.9-1.9 6.9l33.2 33.2c1.3 1.5 1.3 3.7 0 5.1z" fill="#fffffe"></path><path d="m262.8 253.4c0 1.9-.8 3.6-2 4.8s-2.9 2-4.8 2c-3.7 0-6.8-3-6.8-6.8 0-3.5 2.7-6.4 6.2-6.8.2 0 .4.1.6.1s.4 0 .6-.1c3.5.3 6.2 3.2 6.2 6.8z" fill="#fffffe"></path></g></g></g></g></svg>
                 </div>
-                <div class="indicator-trend negative"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M2 6l4 4 2-2 4 4" stroke="#f95300" stroke-width="2" stroke-linecap="round" fill="none"/></svg> -5%</div>
+                <div class="indicator-trend {% if duration_change_percent >= 0 %}positive{% else %}negative{% endif %}">
+                    <svg width="16" height="16" viewBox="0 0 16 16">
+                        {% if duration_change_percent >= 0 %}
+                        <path d="M2 10l4-4 2 2 4-4" stroke="#00b546" stroke-width="2" stroke-linecap="round" fill="none"/>
+                        {% else %}
+                        <path d="M2 6l4 4 2-2 4 4" stroke="#f95300" stroke-width="2" stroke-linecap="round" fill="none"/>
+                        {% endif %}
+                    </svg>
+                    {% if duration_change_percent >= 0 %}+{% endif %}{{ duration_change_percent }}%
+                </div>
                 <div class="indicator-label">Средняя продолжительность</div>
                 <div class="indicator-value">{% if avg_duration %}{{ avg_duration }} мин{% else %}—{% endif %}</div>
             </div>
@@ -91,10 +100,12 @@
         </div>
         <div class="footer">© 2025 makrei.online — <a href="#" style="color: #6366f1; text-decoration: none;">VK</a> | <a href="#" style="color: #6366f1; text-decoration: none;">Telegram</a></div>
     </div>
-    <script src="{% static 'workouts/root.js' %}"></script>
     <script id="weight-data-json" type="application/json">{{ weight_data_json|safe }}</script>
+    <script id="workout-types-data-json" type="application/json">{{ workout_types_json|safe }}</script>
+    <script src="{% static 'workouts/root.js' %}"></script>
     <script src="{% static 'workouts/chart-duration.js' %}"></script>
     <script src="{% static 'workouts/chart-type.js' %}"></script>
+    <script src="{% static 'workouts/progress.js' %}"></script>
 </body>
 </html>
 
